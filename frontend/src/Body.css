@@ -1,0 +1,60 @@
+.Schedule-wrapper{
+	display: flex;
+	/* border: 1px solid red; */
+	height: 86vh;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.Schedule-row{
+	display: flex;
+	flex-basis: 14%;
+	flex-direction: row;
+	justify-content: center;
+	max-height: 14%;
+	border-bottom: 1px solid #EDEFEE;
+}
+
+.Schedule-cell{
+	flex-basis: 14%;
+	border-left: 3px solid #EDEFEE;
+	border-bottom: inherit;
+	max-width: 14%;
+	overflow-wrap: break-all;
+	font: "Roboto";
+	font-weight: 450;
+	font-size: 14px;
+	line-height: 21px;
+	padding: 5px;
+	overflow: auto;
+}
+
+.Schedule-cell#left{ 
+	display: flex;
+	flex-direction: column;
+	border-left: hidden;
+	justify-content: center;
+	align-content: center;
+}
+
+.Schedule-row#bottom{
+	border-bottom: hidden;
+}
+
+.Schedule-cell::-webkit-scrollbar-track
+{
+	background-color: rgb(255, 255, 255);
+}
+
+.Schedule-cell::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: rgb(255, 255, 255);
+}
+
+.Schedule-cell::-webkit-scrollbar-thumb
+{   
+    background-color: rgb(212, 212, 212);
+    border-radius: 20px;
+}
+

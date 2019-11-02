@@ -1,0 +1,12 @@
+.Footer{
+	display: flex;
+	justify-content: center;
+	flex-basis: 1vh;
+	font: "Roboto";
+	font-weight: 450;
+	font-size: 10px;
+}
+
+a:visited{
+	color: rgb(8, 5, 212);
+}
