@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function DropdownWeeks(props) {
   const classes = useStyles();
-  const [selected_group, setSelected_group] = React.useState('');
+  const [selected_lesson, setSelected_lesson] = React.useState('');
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
@@ -27,7 +27,7 @@ export default function DropdownWeeks(props) {
   }, []);
 
   const handleChange = event => {
-    setSelected_group(event.target.value);
+    setSelected_lesson(event.target.value);
 };
 
   return (
@@ -39,12 +39,12 @@ export default function DropdownWeeks(props) {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={selected_group}
+          value={selected_lesson}
           onChange={handleChange}
           labelWidth={labelWidth}
         >
-        {props.groups.map((group) => (
-        <MenuItem value={group.name} key={group.name}>{group.name}</MenuItem>))}
+        {props.lessons.map((lesson) => (
+        <MenuItem value={lesson.name} key={lesson.name}>{lesson.name}</MenuItem>))}
         </Select>
       </FormControl>
     </div>

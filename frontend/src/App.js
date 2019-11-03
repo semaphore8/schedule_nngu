@@ -42,8 +42,41 @@ class App extends React.Component {
 
     
 render() {
+    var dates_array = this.state.lessons.map((lesson) => (lesson.date_day));
+    dates_array.sort();
+    var first_day = dates_array[0];
+    var last_day = dates_array[dates_array.length - 1];
+    
+    function getFirstDayOfTheWeek(day_array) {
+        let day = new Date(Date.parse(day_array));
+        var x;
+        if (day.getDay() == 0) {x = 6;} else {x = day.getDay() - 1;};
+        day.setDate(day.getDate() - x);
+        let first_day_of_the_week = new Date(day);
+        return first_day_of_the_week
+    }
+
+    var first_week_first_day = getFirstDayOfTheWeek(first_day);
+    var last_week_first_day = getFirstDayOfTheWeek(last_day);
+    
+    function getAllWeeksBeginings(firstWeekFirstDay1, lastWeekFirstDay1) {
+        let firstWeekFirstDay = new Date(Date.parse(firstWeekFirstDay1));
+        let lastWeekFirstDay = new Date(Date.parse(lastWeekFirstDay1));
+        let weeks_array = [];
+        while (firstWeekFirstDay <= lastWeekFirstDay) {
+        weeks_array.push(firstWeekFirstDay.toLocaleDateString());
+        firstWeekFirstDay.setDate(firstWeekFirstDay.getDate() + 7);
+        }
+        return weeks_array
+    }
+    
+    var weeks_array = getAllWeeksBeginings(first_week_first_day, last_week_first_day);
+
     return (
-    <div>  
+    <div> 
+        {/* {console.log('2019-11-04=', getFirstDayOfTheWeek('2019-11-04'))} {console.log('2019-11-14=', getFirstDayOfTheWeek('2019-11-14'))} {console.log('2019-11-24=', getFirstDayOfTheWeek('2019-11-24'))}  */}
+        {console.log(weeks_array)} 
+        {/* {console.log(getAllWeeksBeginings('2019-09-23', '2019-11-04'))} */}
         <div className="Header">
             <div className="Hat">
             <span role="img" aria-label="Logo">🎓</span>

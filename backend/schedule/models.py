@@ -68,4 +68,4 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Занятие'
         verbose_name_plural = 'Занятия'
-        unique_together = ['class_number', 'study_group']
+        unique_together = ['class_number', 'study_group', 'date_day']
