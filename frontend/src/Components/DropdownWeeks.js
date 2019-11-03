@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect(props) {
+export default function DropdownWeeks(props) {
   const classes = useStyles();
   const [selected_group, setSelected_group] = React.useState('');
 
@@ -29,11 +29,6 @@ export default function SimpleSelect(props) {
   const handleChange = event => {
     setSelected_group(event.target.value);
 };
-
-// var rows = [];
-// for (var i = 0; i < [props.groups.length]; i++) {
-//     rows.push(<MenuItem value={props.groups[i]} key={i}>{props.groups[i]}</MenuItem>);
-// };
 
   return (
     <div>
@@ -50,7 +45,6 @@ export default function SimpleSelect(props) {
         >
         {props.groups.map((group) => (
         <MenuItem value={group.name} key={group.name}>{group.name}</MenuItem>))}
-        {/* {rows}         */}
         </Select>
       </FormControl>
     </div>

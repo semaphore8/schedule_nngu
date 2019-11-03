@@ -2,7 +2,9 @@ import React from 'react';
 import './Body.css';
 import './Footer.css';
 import './Header.css';
-import SimpleSelect from './Components/Dropdown';
+import DropdownGroups from './Components/DropdownGroups';
+import DropdownWeeks from './Components/DropdownGroups';
+
 // import axios from 'axios';
 
 
@@ -11,7 +13,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: []
+      groups: [],
+      lessons: []
     };
   }
 
@@ -25,12 +28,22 @@ class App extends React.Component {
               });
           }
           );
+          
+    fetch('http://localhost:5000/lessons/')
+    .then(response => response.json())
+    .then(
+        (result) => {
+            this.setState({
+                lessons: result
+            });
+        }
+        );
     }
 
     
 render() {
     return (
-    <div>  {console.log('in App.js', this.state.groups)}
+    <div>  
         <div className="Header">
             <div className="Hat">
             <span role="img" aria-label="Logo">🎓</span>
@@ -51,10 +64,10 @@ render() {
             Октябрь 2019
             </div>
             <div className="Dropdown">
-            <SimpleSelect text="Группа" groups={this.state.groups} />
+                <DropdownGroups text="Группа" groups={this.state.groups} />
             </div>
             {/* <div className="Dropdown">
-            <SimpleSelect text="Неделя"/>
+                <DropdownWeeks text="Неделя" lessons={this.state.lessons} />
             </div> */}
             <div className="Nngu">
             Аф ННГУ им. Н.И. Лобачевского
