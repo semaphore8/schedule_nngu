@@ -19,12 +19,18 @@ class App extends React.Component {
             weeksIsLoaded: false,
             error_in_groups: null,
             error_in_weeks: null,
+            days: [],
+            today: Date(),
         };
         this.getDataFromAPI = this.getDataFromAPI.bind(this);
     }
 
     componentDidMount() {
         this.getDataFromAPI();
+        // var days_array = [for (i of [11, 12, 13, 14, 15, 16]) i];
+        var days_array = [11, 12, 13, 14, 15, 16].map(i => i);
+        this.setState({days: days_array});
+        console.log(this.state.today)
     }
     
     getDataFromAPI() {
@@ -63,36 +69,6 @@ class App extends React.Component {
             );
     }
 
-    // updateWeeksArray() {
-    //     var dates_array = this.state.lessons.map((lesson) => (lesson.date_day));
-    //     dates_array.sort();
-    //     var first_day = dates_array[0];
-    //     var last_day = dates_array[dates_array.length - 1];
-
-    //     function getFirstDayOfTheWeek(day_array) {
-    //         let day = new Date(Date.parse(day_array));
-    //         var x;
-    //         if (day.getDay() === 0) {x = 6;} else {x = day.getDay() - 1;};
-    //         day.setDate(day.getDate() - x);
-    //         let first_day_of_the_week = new Date(day);
-    //         return first_day_of_the_week
-    //     }
-
-    //     var first_week_first_day = getFirstDayOfTheWeek(first_day);
-    //     var last_week_first_day = getFirstDayOfTheWeek(last_day);
-
-    //     function getAllWeeksBeginings(firstWeekFirstDay, lastWeekFirstDay) {
-    //         let weeks_array = [];
-    //         while (firstWeekFirstDay <= lastWeekFirstDay) {
-    //         weeks_array.push(firstWeekFirstDay.toLocaleDateString());
-    //         firstWeekFirstDay.setDate(firstWeekFirstDay.getDate() + 7);
-    //         }
-    //         return weeks_array
-    //     }
-
-    //     this.setState({weeks_array: getAllWeeksBeginings(first_week_first_day, last_week_first_day)});
-    // }
-
     render() {
         const {groups, weeks, groupsIsLoaded, weeksIsLoaded, error_in_groups, error_in_weeks} = this.state;
         if (error_in_groups) {
@@ -110,10 +86,6 @@ class App extends React.Component {
             else {
                 return (
                     <div>
-                        {/* {console.log('2019-11-04=', getFirstDayOfTheWeek('2019-11-04'))} {console.log('2019-11-14=', getFirstDayOfTheWeek('2019-11-14'))} {console.log('2019-11-24=', getFirstDayOfTheWeek('2019-11-24'))}  */}
-                        {console.log('weeks in render=', weeks)} 
-                        {console.log('groups in render=', groups)}
-                        {/* {console.log(getAllWeeksBeginings('2019-09-23', '2019-11-04'))} */}
                         <div className="Header">
                             <div className="Hat">
                                 <span role="img" aria-label="Logo">🎓</span>
@@ -133,18 +105,13 @@ class App extends React.Component {
                             <div className="Months">
                                 Октябрь 2019
                     </div>
-                            {/* {
-                                (this.state.groups.length > 0) && */}
                             <div className="Dropdown">
-                                <DropdownGroups text="Группа" groups={this.state.groups} />
+                                <DropdownGroups text="Группа" groups={groups} />
                             </div>
-                            {/* } */}
-                            {/* {
-                                (weeks.length > 0) && */}
+
                             <div className="Dropdown">
-                                <DropdownWeeks text="Неделя" weeks={this.state.weeks} />
+                                <DropdownWeeks text="Неделя" weeks={weeks} />
                             </div>
-                            {/* } */}
                             <div className="Nngu">
                                 Аф ННГУ им. Н.И. Лобачевского
                     </div>
@@ -154,12 +121,12 @@ class App extends React.Component {
                                 <div className="Schedule-cell" id="left">
 
                                 </div>
-                                <div className="Schedule-cell"></div>
-                                <div className="Schedule-cell"></div>
-                                <div className="Schedule-cell"></div>
-                                <div className="Schedule-cell"></div>
-                                <div className="Schedule-cell"></div>
-                                <div className="Schedule-cell"></div>
+                                <div className="Schedule-cell">{this.state.days[0]}</div>
+                                <div className="Schedule-cell">{this.state.days[1]}</div>
+                                <div className="Schedule-cell">{this.state.days[2]}</div>
+                                <div className="Schedule-cell">{this.state.days[3]}</div>
+                                <div className="Schedule-cell">{this.state.days[4]}</div>
+                                <div className="Schedule-cell">{this.state.days[5]}</div>
                             </div>
                             <div className="Schedule-row">
                                 <div className="Schedule-cell" id="left"><span>
@@ -228,7 +195,7 @@ class App extends React.Component {
                             </div>
                         </div>
                         <div className="Footer">
-                            <a href="https://github.com/sgbliznyuk">© 2019 Simon B <span role="img" aria-label="Smile">🧐</span></a>
+                            <a href="https://github.com/sgbliznyuk"  target="_blank" rel="noopener noreferrer">© 2019 Simon B <span role="img" aria-label="Smile">🧐</span></a>
                         </div>
                     </div>
         );
