@@ -26,4 +26,4 @@ class WeeksSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommonData
-        fields = ['id', 'weeks']
+        fields = ['weeks']

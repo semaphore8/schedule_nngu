@@ -28,8 +28,8 @@ export default function DropdownWeeks(props) {
 
   const handleChange = event => {
     setSelected_week(event.target.value);
-};
-
+  };
+  
   return (
     <div>
         <FormControl variant="outlined" className={classes.formControl}>
@@ -43,13 +43,11 @@ export default function DropdownWeeks(props) {
           onChange={handleChange}
           labelWidth={labelWidth}
         >
-        {
-            (props.weeks_array) &&
-                props.weeks_array.map((week) => (
-                <MenuItem value={week} key={week}>{week}</MenuItem>));
-                
-            
-        }
+        { (props.weeks) &&
+          JSON.parse(props.weeks[0]['weeks']).map((week) => (
+            <MenuItem value={week} key={week}>{week}</MenuItem>
+          ))
+        }        
         </Select>
       </FormControl>
     </div>
