@@ -21,7 +21,7 @@ class App extends React.Component {
             error_in_weeks: null,
             days: [],
             today: Date(),
-            selected_week: 'default',
+            selected_week: '',
         };
         this.getDataFromAPI = this.getDataFromAPI.bind(this);
         this.getWeekFromDropdown = this.getWeekFromDropdown.bind(this);
@@ -34,7 +34,6 @@ class App extends React.Component {
 
     componentDidMount() {
         this.getDataFromAPI();
-        // var days_array = [for (i of [11, 12, 13, 14, 15, 16]) i];
         var days_array = [11, 12, 13, 14, 15, 16].map(i => i);
         this.setState({days: days_array});
         console.log(this.state.today)

@@ -45,8 +45,8 @@ export default function DropdownWeeks(props) {
           labelWidth={labelWidth}
         >
         { (props.weeks) &&
-          JSON.parse(props.weeks[0]['weeks']).map((week) => (
-            <MenuItem value={week} key={week}>{week}</MenuItem>
+          props.weeks.map((week) => (
+            <MenuItem value={week.week} key={week.week}>{week.week}</MenuItem>
           ))
         }        
         </Select>
