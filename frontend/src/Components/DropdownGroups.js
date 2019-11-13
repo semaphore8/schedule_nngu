@@ -1,54 +1,68 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 80,
-     
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+class DropdownGroups extends React.Component{
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected_group: '',
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange(event) {
+    this.setState({
+      selected_group: event.target.value
+    });
+  };
+  
+  render() {
+    const menuItemStyle = {
+      // width: 90,
+      height: 36,
+      fontFamily: 'Roboto',
+      fontSize: '14px',
+      padding: '5px'
+    };
+    
+    const selectStyle = {
+      width: 100,
+      height: 36,
+      fontFamily: 'Roboto',
+      fontSize: '14px',
+    };
 
-export default function DropdownGroups(props) {
-  const classes = useStyles();
-  const [selected_group, setSelected_group] = React.useState('');
-
-  const inputLabel = React.useRef(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
-  }, []);
-
-  const handleChange = event => {
-    setSelected_group(event.target.value);
-};
-
-  return (
-    <div>
-        <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
-          {props.text}
-        </InputLabel>
+    return (
+      <div>
+      <FormControl>
         <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={selected_group}
-          onChange={handleChange}
-          labelWidth={labelWidth}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={this.state.selected_group}
+          onChange={this.handleChange}
+          displayEmpty 
+          style={selectStyle}
         >
-        { (props.groups) &&
-          props.groups.map((group) => (
-          <MenuItem value={group.name} key={group.name}>{group.name}</MenuItem>))
+        <MenuItem value="" style={menuItemStyle}>
+            <em>Группа</em>
+        </MenuItem>
+        {this.props.groups.map((group) => (
+          <MenuItem 
+          value={group.name} 
+          key={group.name}
+          style={menuItemStyle}
+          >{group.name}</MenuItem>
+          ))
         }
+        )
         </Select>
       </FormControl>
-    </div>
-  );
+      </div>
+    );
+  }
 }
+
+export default DropdownGroups;
