@@ -54,8 +54,8 @@ class LessonQuerySet(models.QuerySet):
         first_days_list = GetFirstDaysOfAllWeeks(GetLessonsIn3Months())
         for day in first_days_list:
             w = Weeks.objects.create(week=day)
-            if datetime.strptime(day, '%Y-%m-%d').date() == date.today():
-                w.update(current=True)
+            if datetime.strptime(day, '%Y-%m-%d').date().strftime('%Y-%m-%d') == GetFirstDaysOfAllWeeks([date.today().strftime('%Y-%m-%d')])[0]:
+                w.current=True
             w.save()
 
 class Lesson(models.Model):
@@ -88,8 +88,8 @@ class Lesson(models.Model):
         first_days_list = GetFirstDaysOfAllWeeks(GetLessonsIn3Months())
         for day in first_days_list:
             w = Weeks.objects.create(week=day)
-            if datetime.strptime(day, '%Y-%m-%d').date() == date.today():
-                w.update(current=True)
+            if datetime.strptime(day, '%Y-%m-%d').date().strftime('%Y-%m-%d') == GetFirstDaysOfAllWeeks([date.today().strftime('%Y-%m-%d')])[0]:
+                w.current=True
             w.save()
 
 
@@ -99,8 +99,8 @@ class Lesson(models.Model):
         first_days_list = GetFirstDaysOfAllWeeks(GetLessonsIn3Months())
         for day in first_days_list:
             w = Weeks.objects.create(week=day)
-            if datetime.strptime(day, '%Y-%m-%d').date() == date.today():
-                w.update(current=True)
+            if datetime.strptime(day, '%Y-%m-%d').date().strftime('%Y-%m-%d') == GetFirstDaysOfAllWeeks([date.today().strftime('%Y-%m-%d')])[0]:
+                w.current=True
             w.save()
 
     class Meta:
