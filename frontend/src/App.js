@@ -26,37 +26,36 @@ class App extends React.Component {
         this.getDataFromAPI = this.getDataFromAPI.bind(this);
         this.getWeekFromDropdown = this.getWeekFromDropdown.bind(this);
     }
-
+    
     getWeekFromDropdown(selected_week) {
         this.setState({selected_week: selected_week})
     }
-
+    
     componentDidMount() {
         this.getDataFromAPI();
         var days_array = [11, 12, 13, 14, 15, 16].map(i => i);
         this.setState({days: days_array});
-        console.log(this.state.today)
     }
     
     getDataFromAPI() {
         fetch('http://localhost:5000/groups/')
-            .then(response => response.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        groups: result,
-                        groupsIsLoaded: true,
-                    });
-                },
-                (error_in_groups) => {
-                    this.setState({
-                        groupsIsLoaded: true,
-                        error_in_groups
-                    });
-                }
+        .then(response => response.json())
+        .then(
+            (result) => {
+                this.setState({
+                    groups: result,
+                    groupsIsLoaded: true,
+                });
+            },
+            (error_in_groups) => {
+                this.setState({
+                    groupsIsLoaded: true,
+                    error_in_groups
+                });
+            }
             );
-
-        fetch('http://localhost:5000/weeks/')
+            
+            fetch('http://localhost:5000/weeks/')
             .then(response => response.json())
             .then(
                 (result) => {
@@ -71,10 +70,11 @@ class App extends React.Component {
                         error_in_weeks
                     });
                 }
-            );
-    }
-
+                );
+            }
+            
     render() {
+
         const {groups, weeks, groupsIsLoaded, weeksIsLoaded, error_in_groups, error_in_weeks} = this.state;
         if (error_in_groups) {
             return <div>Ошибка: {error_in_groups.message} </div>;

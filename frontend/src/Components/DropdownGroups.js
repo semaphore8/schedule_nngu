@@ -54,7 +54,9 @@ class DropdownGroups extends React.Component{
           value={group.name} 
           key={group.name}
           style={menuItemStyle}
-          >{group.name}</MenuItem>
+          >
+          {group.name}
+          </MenuItem>
           ))
         }
         )
