@@ -80,7 +80,7 @@ class Lesson(models.Model):
 
 
     def __str__(self):
-        return str(self.subject) + ' ' + str(self.speaker) + ' ' + str(self.classroom) + ' ' + str(self.date_day)
+        return str(self.subject) + ' ' + str(self.speaker) + ' ' + str(self.classroom)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -107,6 +107,7 @@ class Lesson(models.Model):
         verbose_name = 'Занятие'
         verbose_name_plural = 'Занятия'
         unique_together = ['class_number', 'study_group', 'date_day']
+        ordering = ['date_day']
 
 
 class Weeks(models.Model):

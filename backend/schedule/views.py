@@ -3,10 +3,12 @@ from rest_framework import viewsets, generics
 from .serializers.serializers import LessonSerializer, StudyGroupSerializer, WeeksSerializer
 from .models import StudyGroup, Lesson, Weeks
 from .utils.calcutale import GetLessonsIn3Months, GetFirstDaysOfAllWeeks
+from datetime import timedelta, date, datetime
+from dateutil.relativedelta import relativedelta
 
 class LessonViewSet(viewsets.ModelViewSet):
             
-    queryset = Lesson.objects.all()
+    queryset = Lesson.objects.filter(date_day__lt=str(date.today() + relativedelta(months=+3)), date_day__gt=str(date.today() + relativedelta(months=-3)))
     serializer_class = LessonSerializer
 
 class StudyGroupViewSet(viewsets.ModelViewSet):
