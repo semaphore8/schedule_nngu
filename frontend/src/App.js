@@ -75,9 +75,9 @@ class App extends React.Component {
             
     handleTodayClick() {
         let current_week = this.state.weeks.find((week) => week.current);
-        current_week &&
+        current_week ?
         this.myRef.current.changeSelectedWeek(current_week.week)
-        ||
+        :
         alert('Текущая неделя не найдена. Обратитесь к администратору.')
     }
 
