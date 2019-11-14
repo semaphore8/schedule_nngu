@@ -11,17 +11,24 @@ class DropdownWeeks extends React.Component{
       selected_week: '',
     }
     this.handleChange = this.handleChange.bind(this);
+    this.changeSelectedWeek = this.changeSelectedWeek.bind(this);
   }
   
   handleChange(event) {
     this.setState({
       selected_week: event.target.value,
     });
+    console.log(event.target.value);
     this.props.getWeekFromDropdown(event.target.value);
   };
   
-  // componentDidUpdate() {
-  // }
+  changeSelectedWeek(week) {
+    this.setState({
+      selected_week: week,
+    });
+    this.props.getWeekFromDropdown(week);
+    console.log('changeSelectedWeek() call from DropdownWeeks. week =', week)
+  }
   
   render() {
     const menuItemStyle = {

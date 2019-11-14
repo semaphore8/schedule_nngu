@@ -5,8 +5,6 @@ import './Header.css';
 import DropdownGroups from './Components/DropdownGroups';
 import DropdownWeeks from './Components/DropdownWeeks';
 
-// import axios from 'axios';
-
 
 class App extends React.Component {
 
@@ -25,6 +23,8 @@ class App extends React.Component {
         };
         this.getDataFromAPI = this.getDataFromAPI.bind(this);
         this.getWeekFromDropdown = this.getWeekFromDropdown.bind(this);
+        this.handleTodayClick = this.handleTodayClick.bind(this);
+        this.myRef = React.createRef();
     }
     
     getWeekFromDropdown(selected_week) {
@@ -73,6 +73,10 @@ class App extends React.Component {
                 );
             }
             
+    handleTodayClick() {
+        this.myRef.current.changeSelectedWeek(this.state.weeks.find((week) => week.current).week)
+    }
+
     render() {
 
         const {groups, weeks, groupsIsLoaded, weeksIsLoaded, error_in_groups, error_in_weeks} = this.state;
@@ -98,7 +102,7 @@ class App extends React.Component {
                             <div className="Title">
                                 Расписание
                     </div>
-                            <div className="Today-button">
+                            <div className="Today-button" onClick={this.handleTodayClick}>
                                 <button>Сегодня</button>
                             </div>
                             <div className="Arrow">
@@ -115,7 +119,7 @@ class App extends React.Component {
                             </div>
 
                             <div className="Dropdown">
-                                <DropdownWeeks text="Неделя" weeks={weeks} getWeekFromDropdown={this.getWeekFromDropdown} />
+                                <DropdownWeeks text="Неделя" weeks={weeks} getWeekFromDropdown={this.getWeekFromDropdown} ref={this.myRef} />
                             </div>
                             <div className="Nngu">
                                 Аф ННГУ им. Н.И. Лобачевского
