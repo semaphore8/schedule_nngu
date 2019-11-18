@@ -24,4 +24,13 @@ def GetFirstDaysOfAllWeeks(date_list: list):
         first_days.sort()
     return first_days
 
+def ActualizeCurrentWeek():
+    Weeks = apps.get_model('schedule', 'Weeks')
+    all_weeks = Weeks.objects.all()
+    for w in all_weeks:
+            if w.week == GetFirstDaysOfAllWeeks([date.today().strftime('%Y-%m-%d')])[0]:
+                w.current=True
+            else:
+                w.current=False
+            w.save()
     
