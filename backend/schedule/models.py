@@ -7,7 +7,7 @@ class Speaker(models.Model):
     name = models.CharField('ФИО', max_length=70, unique=True)
     department = models.CharField('Кафедра', max_length=50, blank=True)
     email = models.EmailField('Email', blank=True)
-    phone_number = models.CharField('Номер телефона преподавателя', max_length=20, blank=True, )
+    phone_number = models.CharField('Номер телефона преподавателя', max_length=20, blank=True)
 
     def __str__(self):
         return self.name
@@ -18,7 +18,8 @@ class Speaker(models.Model):
 
 class Subject(models.Model):
     name = models.CharField('Предмет', max_length=100, unique=True, help_text='Название предмета')
-    
+    load = models.IntegerField('Нагрузка (часов в семестр)', blank=True, null=True)
+
     subject_type_choices = [
         ('Lecture', 'Лекция'),
         ('Practice', 'Практика'),
@@ -43,6 +44,7 @@ class Subject(models.Model):
 
 class Classroom(models.Model):
     name = models.CharField('Аудитория', max_length=10, unique=True)
+    size = models.IntegerField('Количество мест в аудитории', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -53,6 +55,7 @@ class Classroom(models.Model):
 
 class StudyGroup(models.Model):
     name = models.CharField('Группа', max_length=10, unique=True)
+    students_count = models.IntegerField('Количество студентов', blank=True, null=True)
 
     def __str__(self):
         return self.name

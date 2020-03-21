@@ -19,15 +19,24 @@ class WeeksAdmin(admin.ModelAdmin):
     list_display_links = ('week',)
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'subject_type')
+    list_display = ('id', 'name', 'subject_type', 'load')
     list_display_links = ('name',)
-    list_editable = ('subject_type',)
+    list_editable = ('subject_type', 'load')
     list_filter = ['subject_type']
     search_fields = ['name__icontains']
 
-for r in (Classroom, StudyGroup):
-    admin.site.register(r)
+class StudyGroupAdmin(admin.ModelAdmin):
+    list_display = ('name', 'students_count')
+    list_editable = ('students_count',)
+    search_fields = ['name__icontains']
 
+class ClassroomAdmin(admin.ModelAdmin):
+    list_display = ('name', 'size')
+    list_editable = ('size',)
+    search_fields = ['name__icontains']
+
+admin.site.register(Classroom, ClassroomAdmin)
+admin.site.register(StudyGroup, StudyGroupAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Speaker, SpeakerAdmin)
 admin.site.register(Weeks, WeeksAdmin)
