@@ -3,29 +3,29 @@ from django.contrib import admin
 from .models import *
 
 
-class LessonFulltimeAdmin(admin.ModelAdmin):
-
-    def get_subject_type(self, obj):
-        return obj.subject.get_subject_type_display()
-    get_subject_type.short_description = 'Тип занятия'
-
-    autocomplete_fields = ['subject', 'speaker']
-    list_display = ('subject', 'get_subject_type', 'study_group', 'date_day', 'class_number', 'speaker', 'classroom')
-    list_display_links = ('subject',)
-    list_filter = ['date_day', 'study_group']
-    ordering = ['-date_day']
-    
 class LessonDistanceAdmin(admin.ModelAdmin):
 
-    def get_subject_type(self, obj):
-        return obj.subject.get_subject_type_display()
-    get_subject_type.short_description = 'Тип занятия'
+    # def get_subject_type(self, obj):
+    #     return obj.subject.get_subject_type_display()
+    # get_subject_type.short_description = 'Тип занятия'
 
     autocomplete_fields = ['subject', 'speaker']
-    list_display = ('subject', 'get_subject_type', 'study_group', 'class_number', 'speaker', 'classroom', 'week_parity', 'day')
+    list_display = ('subject', 'study_group', 'date_day', 'class_number', 'speaker', 'classroom')
+    list_display_links = ('subject',)
+    list_filter = ['date_day', 'study_group']
+    ordering = ['-date_day', 'study_group', 'class_number']
+    
+class LessonFulltimeAdmin(admin.ModelAdmin):
+
+    # def get_subject_type(self, obj):
+    #     return obj.subject.get_subject_type_display()
+    # get_subject_type.short_description = 'Тип занятия'
+
+    autocomplete_fields = ['subject', 'speaker']
+    list_display = ('subject', 'study_group', 'class_number', 'speaker', 'classroom', 'week_parity', 'day')
     list_display_links = ('subject',)
     list_filter = ['study_group', 'week_parity', 'day']
-    ordering = ['day', 'week_parity']
+    ordering = ['day', 'week_parity', 'study_group', 'class_number']
     
 class SpeakerAdmin(admin.ModelAdmin):
     list_display = ('name', 'department', 'email', 'phone_number')

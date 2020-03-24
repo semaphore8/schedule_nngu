@@ -20,7 +20,18 @@ class LessonFulltimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonFulltime
         fields = ['id', '__str__', 'date_day', 'class_number', 'study_group', 'subject', 'speaker', 'classroom']
-      
+
+class LessonDistanceSerializer(serializers.ModelSerializer):
+
+    class_number = serializers.StringRelatedField()
+    study_group = serializers.StringRelatedField()
+    subject = SubjectSerializer()
+    speaker = serializers.StringRelatedField()
+    classroom = serializers.StringRelatedField()
+
+    class Meta:
+        model = LessonDistance
+        fields = ['id', '__str__', 'date_day', 'class_number', 'study_group', 'subject', 'speaker', 'classroom']
 
 
 class StudyGroupSerializer(serializers.ModelSerializer):
@@ -31,7 +42,6 @@ class StudyGroupSerializer(serializers.ModelSerializer):
 
 
 class WeeksSerializer(serializers.ModelSerializer):
-    
     
 
     class Meta:

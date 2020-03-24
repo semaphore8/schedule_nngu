@@ -90,7 +90,7 @@ class LessonQuerySet(models.QuerySet):
                 w.current=True
             w.save()
 
-class LessonFulltime(models.Model):
+class LessonDistance(models.Model):
 
     objects = LessonQuerySet.as_manager()
 
@@ -134,13 +134,14 @@ class LessonFulltime(models.Model):
                 w.current=True
             w.save()
 
-    class Meta:
-        verbose_name = 'Занятие дневное'
-        verbose_name_plural = 'Занятия дневные'
-        unique_together = ['class_number', 'study_group', 'date_day']
-        ordering = ['date_day']
 
-class LessonDistance(models.Model):
+    class Meta:
+        verbose_name = 'Занятие заочное'
+        verbose_name_plural = 'Занятия заочные'
+        unique_together = ['class_number', 'study_group', 'date_day']
+        ordering = ['date_day']  
+
+class LessonFulltime(models.Model):
 
     objects = LessonQuerySet.as_manager()
 
@@ -179,8 +180,8 @@ class LessonDistance(models.Model):
         return str(self.subject) + ' ' + str(self.speaker) + ' ' + str(self.classroom)
 
     class Meta:
-        verbose_name = 'Занятие заочное'
-        verbose_name_plural = 'Занятия заочные'
+        verbose_name = 'Занятие дневное'
+        verbose_name_plural = 'Занятия дневные'
         unique_together = ['class_number', 'study_group', 'week_parity' , 'day']
         ordering = ['day']
 
