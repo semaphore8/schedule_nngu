@@ -6,6 +6,7 @@ import './Header.css';
 import DropdownGroups from './Components/DropdownGroups';
 import DropdownWeeks from './Components/DropdownWeeks';
 import Switch from './Components/Switch';
+import getWeekNumber from './Utils/GetWeekNumber';
 
 
 class App extends React.Component {
@@ -153,7 +154,11 @@ class App extends React.Component {
             :
             alert('Текущая неделя не найдена. Обратитесь к администратору.')
         } else if (this.state.study_mode === 'fulltime') {
-            this.myRef.current.changeSelectedWeekFulltime(!this.state.selected_week_fulltime) // TODO
+            let current_week = getWeekNumber();
+            if (current_week % 2 === 0) 
+            this.myRef.current.changeSelectedWeekFulltime('even')
+            else if (current_week % 2 === 1) 
+            this.myRef.current.changeSelectedWeekFulltime('uneven')
         }
     }
     
