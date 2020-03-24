@@ -162,7 +162,7 @@ class App extends React.Component {
     }
 
     render() {
-        console.log('study mode in render - ', this.state.study_mode)
+        // console.log('study mode in render - ', this.state.study_mode)
         var days = [];
         var d;
         var wd;
@@ -224,7 +224,7 @@ class App extends React.Component {
         }
         var months = getMonthsNames(days);
         
-        const {groups_distance, groups_fulltime, weeks, lessons_distance, lessons_fulltime, groupsIsLoaded, weeksIsLoaded, lessons_distanceIsLoaded, lessons_fulltimeIsLoaded, error_in_groups, error_in_weeks, error_in_lessons_distance, error_in_lessons_fulltime} = this.state;
+        const {groups_distance, groups_fulltime, weeks, lessons_distance, lessons_fulltime, groupsIsLoaded, weeksIsLoaded, lessons_distanceIsLoaded, lessons_fulltimeIsLoaded, error_in_groups, error_in_weeks, error_in_lessons_distance, error_in_lessons_fulltime, study_mode} = this.state;
         if (error_in_groups) {
             return <div>Ошибка: {error_in_groups.message} </div>;
         }
@@ -281,7 +281,14 @@ class App extends React.Component {
                                 </div>
                             </div>
                             <div className="Dropdown">
-                                <DropdownGroups text="Группа" groups={groups_distance} getGroupFromDropdown={this.getGroupFromDropdown}/>
+                                {
+                                    study_mode === 'distance' && 
+                                        <DropdownGroups text="Группа" groups={groups_distance} getGroupFromDropdown={this.getGroupFromDropdown}/>
+                                } 
+                                {
+                                    study_mode === 'fulltime' && 
+                                        <DropdownGroups text="Группа" groups={groups_fulltime} getGroupFromDropdown={this.getGroupFromDropdown}/>
+                                } 
                             </div>
 
                             <div className="Dropdown">
