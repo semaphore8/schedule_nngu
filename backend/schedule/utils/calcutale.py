@@ -5,8 +5,8 @@ from django.apps import apps
 
 
 def GetLessonsIn3Months() -> list:
-    LessonFulltime = apps.get_model('schedule', 'LessonFulltime')
-    q = LessonFulltime.objects.filter(date_day__lt=str(date.today() + relativedelta(months=+3)), date_day__gt=str(date.today() + relativedelta(months=-3)))
+    LessonDistance = apps.get_model('schedule', 'LessonDistance')
+    q = LessonDistance.objects.filter(date_day__lt=str(date.today() + relativedelta(months=+3)), date_day__gt=str(date.today() + relativedelta(months=-3)))
 
     date_list = [str(l.date_day) for l in q]
     

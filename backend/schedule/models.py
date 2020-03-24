@@ -78,7 +78,7 @@ class StudyGroup(models.Model):
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
 
-class LessonQuerySet(models.QuerySet):
+class LessonDistanceQuerySet(models.QuerySet):
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
@@ -92,7 +92,7 @@ class LessonQuerySet(models.QuerySet):
 
 class LessonDistance(models.Model):
 
-    objects = LessonQuerySet.as_manager()
+    objects = LessonDistanceQuerySet.as_manager()
 
     class_number_choices = [
         (1, '1'),
@@ -142,8 +142,6 @@ class LessonDistance(models.Model):
         ordering = ['date_day']  
 
 class LessonFulltime(models.Model):
-
-    objects = LessonQuerySet.as_manager()
 
     class_number_choices = [
         (1, '1'),
