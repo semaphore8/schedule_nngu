@@ -9,13 +9,19 @@ class DropdownGroups extends React.Component{
     super(props);
     this.state = {
       selected_group: '',
+      selected_group_fulltime: '',
     }
     this.handleChange = this.handleChange.bind(this);
   }
   
   handleChange(event) {
+    if (this.props.study_mode === 'distance')
     this.setState({
       selected_group: event.target.value
+    })
+    else if (this.props.study_mode === 'fulltime')
+    this.setState({
+      selected_group_fulltime: event.target.value
     });
     this.props.getGroupFromDropdown(event.target.value);
   };
@@ -39,6 +45,8 @@ class DropdownGroups extends React.Component{
     return (
       <div>
       <FormControl>
+        {
+          this.props.study_mode === 'distance' &&
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -50,7 +58,7 @@ class DropdownGroups extends React.Component{
         <MenuItem value="" style={menuItemStyle}>
             <em>Группа</em>
         </MenuItem>
-        {this.props.groups.map((group) => (
+        {this.props.groups_distance.map((group) => (
           <MenuItem 
           value={group.name} 
           key={group.name}
@@ -62,6 +70,33 @@ class DropdownGroups extends React.Component{
         }
         )
         </Select>
+        }
+        {
+          this.props.study_mode === 'fulltime' &&
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={this.state.selected_group_fulltime}
+          onChange={this.handleChange}
+          displayEmpty 
+          style={selectStyle}
+        >
+        <MenuItem value="" style={menuItemStyle}>
+            <em>Группа</em>
+        </MenuItem>
+        {this.props.groups_fulltime.map((group) => (
+          <MenuItem 
+          value={group.name} 
+          key={group.name}
+          style={menuItemStyle}
+          >
+          {group.name}
+          </MenuItem>
+          ))
+        }
+        )
+        </Select>
+        }
       </FormControl>
       </div>
     );

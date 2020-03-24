@@ -30,6 +30,7 @@ class App extends React.Component {
             selected_week: '',
             selected_week_fulltime: '',
             selected_group: '',
+            selected_group_fulltime: '',
             study_mode: 'distance',
         };
         this.weeks_fulltime = [
@@ -65,7 +66,10 @@ class App extends React.Component {
     }
     
     getGroupFromDropdown(selected_group) {
+        if (this.state.study_mode === 'distance')
         this.setState({selected_group: selected_group})
+        else if (this.state.study_mode === 'fulltime')
+        this.setState({selected_group_fulltime: selected_group})
     }
 
     componentDidMount() {
@@ -198,10 +202,8 @@ class App extends React.Component {
     }
 
     render() {
-        console.log('study mode in render - ', this.state.study_mode)
-        console.log('selected_week in render - ', this.state.selected_week)
-        console.log('selected_week_fulltime in render - ', this.state.selected_week_fulltime)
-        console.log('weeks_fulltime in render - ', this.weeks_fulltime)
+        console.log('selected_group - ', this.state.selected_group)
+        console.log('selected_group_fulltime - ', this.state.selected_group_fulltime)
         var days = [];
         var d;
         var wd;
@@ -320,14 +322,7 @@ class App extends React.Component {
                                 </div>
                             </div>
                             <div className="Dropdown">
-                                {
-                                    study_mode === 'distance' && 
-                                        <DropdownGroups text="Группа" groups={groups_distance} getGroupFromDropdown={this.getGroupFromDropdown}/>
-                                } 
-                                {
-                                    study_mode === 'fulltime' && 
-                                        <DropdownGroups text="Группа" groups={groups_fulltime} getGroupFromDropdown={this.getGroupFromDropdown}/>
-                                } 
+                                        <DropdownGroups text="Группа" groups_distance={groups_distance} groups_fulltime={groups_fulltime} getGroupFromDropdown={this.getGroupFromDropdown} study_mode={study_mode}/>
                             </div>
 
                             <div className="Dropdown">
