@@ -30,7 +30,6 @@ class DropdownWeeks extends React.Component{
   
   render() {
     const menuItemStyle = {
-      // width: 90,
       height: 36,
       fontFamily: 'Roboto',
       fontSize: '14px',

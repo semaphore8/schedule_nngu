@@ -5,6 +5,7 @@ import './Footer.css';
 import './Header.css';
 import DropdownGroups from './Components/DropdownGroups';
 import DropdownWeeks from './Components/DropdownWeeks';
+import Switch from './Components/Switch';
 
 
 class App extends React.Component {
@@ -27,6 +28,7 @@ class App extends React.Component {
             error_in_lessons_fulltime: null,
             selected_week: '',
             selected_group: '',
+            study_mode: 'distance',
         };
         this.getDataFromAPI = this.getDataFromAPI.bind(this);
         this.getWeekFromDropdown = this.getWeekFromDropdown.bind(this);
@@ -35,8 +37,18 @@ class App extends React.Component {
         this.handleRightArrowClick = this.handleRightArrowClick.bind(this);
         this.handleLeftArrowClick = this.handleLeftArrowClick.bind(this);
         this.myRef = React.createRef();
+        this.getStudyModeFromSwitch = this.getStudyModeFromSwitch.bind(this);
     }
     
+    getStudyModeFromSwitch(study_mode) {
+        if (study_mode === true) {
+            this.setState({study_mode: 'distance'});
+        } 
+        else if (study_mode === false) {
+            this.setState({study_mode: 'fulltime'});
+        }
+    }
+
     getWeekFromDropdown(selected_week) {
         this.setState({selected_week: selected_week})
     }
@@ -150,7 +162,7 @@ class App extends React.Component {
     }
 
     render() {
-
+        console.log('study mode in render - ', this.state.study_mode)
         var days = [];
         var d;
         var wd;
@@ -247,6 +259,9 @@ class App extends React.Component {
                             <div className="Title">
                                 Расписание
                     </div>
+                            <div className="Switch">
+                                <Switch getStudyModeFromSwitch={this.getStudyModeFromSwitch}/>
+                            </div>
                             <div className="Today-button" onClick={this.handleTodayClick}>
                                 <button>Сегодня</button>
                             </div>

@@ -102,6 +102,20 @@
     margin-top: 5px;
 }
 
+.Header .Switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-basis: 180px; */
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+.Header .Switch .SwitchWrapper {
+    margin-left: 20px;
+    padding-top: 4px;
+}
+
 .Header .Dropdown{
     display: flex;
     flex-direction: column;
