@@ -4,7 +4,8 @@ from rest_framework import routers
 from schedule import views
 
 router = routers.DefaultRouter()
-router.register('lessons', views.LessonDistanceViewSet)
+router.register('lessons_distance', views.LessonDistanceViewSet)
+router.register('lessons_fulltime', views.LessonFulltimeViewSet)
 router.register('groups', views.StudyGroupViewSet)
 router.register('weeks', views.WeeksViewSet)
 
