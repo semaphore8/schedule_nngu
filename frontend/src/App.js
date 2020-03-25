@@ -15,44 +15,35 @@ import { ApiURI, class_timetable } from './Utils/AppConfig'
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            groups_distance: [],
-            groups_fulltime: [],
-            weeks: [],
-            lessons_distance: [],
-            lessons_fulltime: [],
-            groupsIsLoaded: false,
-            weeksIsLoaded: false,
-            lessons_distanceIsLoaded: false,
-            lessons_fulltimeIsLoaded: false,
-            error_in_groups: null,
-            error_in_weeks: null,
-            error_in_lessons_distance: null,
-            error_in_lessons_fulltime: null,
-            selected_week: '',
-            selected_week_fulltime: '',
-            selected_group: '',
-            selected_group_fulltime: '',
-            study_mode: 'distance',
-        };
-        this.weeks_fulltime = [
-                {parity: 'Чётная', value: 'even'},
-                {parity: 'Нечётная', value: 'uneven'},
-            ];
-        this.getDataFromAPI = this.getDataFromAPI.bind(this);
-        this.getWeekFromDropdown = this.getWeekFromDropdown.bind(this);
-        this.getWeekFromDropdownFulltime = this.getWeekFromDropdownFulltime.bind(this);
-        this.handleTodayClick = this.handleTodayClick.bind(this);
-        this.getGroupFromDropdown = this.getGroupFromDropdown.bind(this);
-        this.handleRightArrowClick = this.handleRightArrowClick.bind(this);
-        this.handleLeftArrowClick = this.handleLeftArrowClick.bind(this);
-        this.myRef = React.createRef();
-        this.getStudyModeFromSwitch = this.getStudyModeFromSwitch.bind(this);
-    }
+    state = {
+        groups_distance: [],
+        groups_fulltime: [],
+        weeks: [],
+        lessons_distance: [],
+        lessons_fulltime: [],
+        groupsIsLoaded: false,
+        weeksIsLoaded: false,
+        lessons_distanceIsLoaded: false,
+        lessons_fulltimeIsLoaded: false,
+        error_in_groups: null,
+        error_in_weeks: null,
+        error_in_lessons_distance: null,
+        error_in_lessons_fulltime: null,
+        selected_week: '',
+        selected_week_fulltime: '',
+        selected_group: '',
+        selected_group_fulltime: '',
+        study_mode: 'distance',
+    };
+
+    weeks_fulltime = [
+            {parity: 'Чётная', value: 'even'},
+            {parity: 'Нечётная', value: 'uneven'},
+        ];
+        
+    myRef = React.createRef();
     
-    getStudyModeFromSwitch(study_mode) {
+    getStudyModeFromSwitch = study_mode => {
         if (study_mode === true) {
             this.setState({study_mode: 'distance'});
         } 
@@ -61,15 +52,15 @@ class App extends React.Component {
         }
     }
 
-    getWeekFromDropdown(selected_week) {
+    getWeekFromDropdown = selected_week => {
         this.setState({selected_week: selected_week})
     }
 
-    getWeekFromDropdownFulltime(selected_week) {
+    getWeekFromDropdownFulltime = selected_week => {
         this.setState({selected_week_fulltime: selected_week})
     }
     
-    getGroupFromDropdown(selected_group) {
+    getGroupFromDropdown = selected_group => {
         if (this.state.study_mode === 'distance')
         this.setState({selected_group: selected_group})
         else if (this.state.study_mode === 'fulltime')
@@ -80,7 +71,7 @@ class App extends React.Component {
         this.getDataFromAPI();
     }
     
-    getDataFromAPI() {
+    getDataFromAPI = () => {
         fetch(ApiURI + '/groups/')
         .then(response => response.json())
         .then(
@@ -154,7 +145,7 @@ class App extends React.Component {
         
         }
 
-    handleTodayClick() {
+    handleTodayClick = () => {
         if (this.state.study_mode === 'distance') {
             let current_week = this.state.weeks.find((week) => week.current);
             current_week ?
@@ -170,7 +161,7 @@ class App extends React.Component {
         }
     }
     
-    handleRightArrowClick() {
+    handleRightArrowClick = () => {
         if (this.state.study_mode === 'distance') {
             if (this.state.selected_week)  {
             let selected_week = this.state.weeks.find(week => week.week === this.state.selected_week);
@@ -188,7 +179,7 @@ class App extends React.Component {
     }
     
 
-    handleLeftArrowClick() {
+    handleLeftArrowClick = () => {
         if (this.state.study_mode === 'distance') {
             if (this.state.selected_week)  {
             let selected_week = this.state.weeks.find(week => week.week === this.state.selected_week);
