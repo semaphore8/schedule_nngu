@@ -158,12 +158,12 @@ class LessonFulltime(models.Model):
     ]
 
     days = [
-        ('mon', 'пн'),
-        ('tue', 'вт'),
-        ('wed', 'ср'),
-        ('thu', 'чт'),
-        ('fri', 'пт'),
-        ('sat', 'сб'),
+        ('Mon', 'пн'),
+        ('Tue', 'вт'),
+        ('Wed', 'ср'),
+        ('Thu', 'чт'),
+        ('Fri', 'пт'),
+        ('Sat', 'сб'),
     ]
 
     speaker = models.ForeignKey(Speaker, verbose_name='Преподаватель', on_delete=models.CASCADE)

@@ -12,9 +12,12 @@ export default function ScheduleRowWithContent(props) {
                 <ScheduleCellWithContent 
                     key={props.row_number + day.day}
                     class_number={props.row_number}
-                    lessons={props.lessons_distance}
+                    lessons={props.lessons}
+                    study_mode={props.study_mode}
                     day={day}
                     selected_group={props.selected_group}
+                    selected_group_fulltime={props.selected_group_fulltime}
+                    selected_week_fulltime={props.selected_week_fulltime}
                 />
         )    
         }
