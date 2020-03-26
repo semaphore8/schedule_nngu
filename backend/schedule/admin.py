@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import *
-
+from .forms import *
 
 class LessonDistanceAdmin(admin.ModelAdmin):
 
@@ -9,11 +9,15 @@ class LessonDistanceAdmin(admin.ModelAdmin):
     #     return obj.subject.get_subject_type_display()
     # get_subject_type.short_description = 'Тип занятия'
 
+    fields = ['subject', 'speaker', 'classroom', 'study_group', 'date_day', 'class_number']
     autocomplete_fields = ['subject', 'speaker']
     list_display = ('subject', 'study_group', 'date_day', 'class_number', 'speaker', 'classroom')
     list_display_links = ('subject',)
     list_filter = ['date_day', 'study_group']
     ordering = ['-date_day', 'study_group', 'class_number']
+
+    class Media:
+        js = ('admin/js/jquery.init.js', 'js/LessonsDistanceAdmin.js')
     
 class LessonFulltimeAdmin(admin.ModelAdmin):
 
@@ -38,11 +42,13 @@ class WeeksAdmin(admin.ModelAdmin):
     list_display_links = ('week',)
 
 class SubjectAdmin(admin.ModelAdmin):
+    fields = ['name', 'subject_type', 'load', 'speakers', 'classrooms']
     list_display = ('id', 'name', 'subject_type', 'load')
     list_display_links = ('name',)
     list_editable = ('load',)
     list_filter = ['subject_type']
     search_fields = ['name__icontains']
+    filter_horizontal = ('speakers', 'classrooms')
 
 class StudyGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'students_count', 'mode_of_study')
@@ -50,6 +56,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
     search_fields = ['name__icontains']
 
 class ClassroomAdmin(admin.ModelAdmin):
+    # form = ClassroomForm
     list_display = ('name', 'size')
     list_editable = ('size',)
     search_fields = ['name__icontains']

@@ -19,6 +19,8 @@ class Speaker(models.Model):
 class Subject(models.Model):
     name = models.CharField('Предмет', max_length=100, help_text='Название предмета')
     load = models.IntegerField('Нагрузка (часов в семестр)', blank=True, null=True)
+    speakers = models.ManyToManyField(Speaker, verbose_name='Преподаватели', blank=True, help_text='<span style="color: black; font-weight: 500;">Преподаватели, которые могут вести предмет<pre>\n</pre></span>')
+    classrooms = models.ManyToManyField('Classroom', verbose_name='Аудитории', blank=True, help_text='<span style="color: black; font-weight: 500;">Аудитории, в которых может проводиться занятие<pre>\n</pre></span>')
 
     subject_type_choices = [
         ('Lecture', 'Лекция'),
@@ -46,6 +48,7 @@ class Subject(models.Model):
 class Classroom(models.Model):
     name = models.CharField('Аудитория', max_length=10, unique=True)
     size = models.IntegerField('Количество мест в аудитории', blank=True, null=True)
+
 
     def __str__(self):
         return self.name
