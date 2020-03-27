@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from .models import *
-from .forms import *
 
 class LessonDistanceAdmin(admin.ModelAdmin):
 
@@ -9,8 +8,8 @@ class LessonDistanceAdmin(admin.ModelAdmin):
     #     return obj.subject.get_subject_type_display()
     # get_subject_type.short_description = 'Тип занятия'
 
-    fields = ['subject', 'speaker', 'classroom', 'study_group', 'date_day', 'class_number']
-    autocomplete_fields = ['subject', 'speaker']
+    fields = ['subject', 'study_group', 'date_day', 'class_number']
+    autocomplete_fields = ['subject']
     list_display = ('subject', 'study_group', 'date_day', 'class_number', 'speaker', 'classroom')
     list_display_links = ('subject',)
     list_filter = ['date_day', 'study_group']

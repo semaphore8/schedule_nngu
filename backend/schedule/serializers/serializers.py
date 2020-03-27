@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from schedule.models import *
 
-class SubjectSerializer(serializers.ModelSerializer):
+class SubjectNameSerializer(serializers.ModelSerializer):
 
     s_type = serializers.CharField(source='get_subject_type_display')
 
@@ -13,7 +13,7 @@ class LessonFulltimeSerializer(serializers.ModelSerializer):
 
     class_number = serializers.StringRelatedField()
     study_group = serializers.StringRelatedField()
-    subject = SubjectSerializer()
+    subject = SubjectNameSerializer()
     speaker = serializers.StringRelatedField()
     classroom = serializers.StringRelatedField()
 
@@ -25,7 +25,7 @@ class LessonDistanceSerializer(serializers.ModelSerializer):
 
     class_number = serializers.StringRelatedField()
     study_group = serializers.StringRelatedField()
-    subject = SubjectSerializer()
+    subject = SubjectNameSerializer()
     speaker = serializers.StringRelatedField()
     classroom = serializers.StringRelatedField()
 
@@ -38,7 +38,7 @@ class StudyGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StudyGroup
-        fields = ['name', 'mode_of_study']
+        fields = ['name', 'mode_of_study', 'students_count']
 
 
 class WeeksSerializer(serializers.ModelSerializer):
@@ -47,3 +47,24 @@ class WeeksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weeks
         fields = ['id', 'week', 'current']
+
+class SpeakersListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Speaker
+        fields = ['id', 'name']
+
+class ClassroomsListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Classroom
+        fields = ['id', 'name', 'size']
+
+class SubjectSerializer(serializers.ModelSerializer):
+
+    speaker_list = SpeakersListSerializer(many = True, required = False, source='speakers')
+    classrooms_list = ClassroomsListSerializer(many = True, required = False, source='classrooms')
+
+    class Meta:
+        model = Subject
+        fields = ['speaker_list', 'classrooms_list']

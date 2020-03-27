@@ -8,11 +8,10 @@ router.register('lessons_distance', views.LessonDistanceViewSet)
 router.register('lessons_fulltime', views.LessonFulltimeViewSet)
 router.register('groups', views.StudyGroupViewSet)
 router.register('weeks', views.WeeksViewSet)
+router.register('subjects', views.SubjectViewSet)
 
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    # path('weeks/', views.WeeksView.as_view()),
-    # path('api/', include('rest_framework.urls')),
 ]

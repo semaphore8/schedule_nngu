@@ -1,7 +1,7 @@
 import datetime
 from rest_framework import viewsets, generics
-from .serializers.serializers import LessonDistanceSerializer, StudyGroupSerializer, WeeksSerializer, LessonFulltimeSerializer
-from .models import StudyGroup, LessonDistance, Weeks, LessonFulltime
+from .serializers.serializers import LessonDistanceSerializer, StudyGroupSerializer, WeeksSerializer, LessonFulltimeSerializer, SubjectSerializer
+from .models import StudyGroup, LessonDistance, Weeks, LessonFulltime, Subject
 from .utils.calcutale import GetLessonsIn3Months, GetFirstDaysOfAllWeeks, ActualizeCurrentWeek
 from datetime import timedelta, date, datetime
 from dateutil.relativedelta import relativedelta
@@ -25,3 +25,8 @@ class WeeksViewSet(viewsets.ModelViewSet):
 
     queryset = Weeks.objects.all() 
     serializer_class = WeeksSerializer
+
+class SubjectViewSet(viewsets.ModelViewSet):
+
+    queryset = Subject.objects.all() 
+    serializer_class = SubjectSerializer
