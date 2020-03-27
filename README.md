@@ -30,4 +30,4 @@ Backend admin interface http://localhost:5000/admin *admin:admin*
 
 ## Contrib
 
-If you liked this app and want it to be translated to english, feel free to [open an issue](https://github.com/semaphore8/schedule_nngu/issues/new/choose) and I'll figure it out.
+If you like this app and want it to be translated to English, feel free to [open an issue](https://github.com/semaphore8/schedule_nngu/issues/new/choose) and I'll figure it out.
