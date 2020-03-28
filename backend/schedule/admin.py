@@ -41,11 +41,10 @@ class WeeksAdmin(admin.ModelAdmin):
     list_display_links = ('week',)
 
 class SubjectAdmin(admin.ModelAdmin):
-    fields = ['name', 'subject_type', 'load', 'speakers', 'classrooms']
-    list_display = ('id', 'name', 'subject_type', 'load')
+    fields = ['name', 'subject_type', 'speakers', 'classrooms']
+    list_display = ('id', 'name', 'subject_type')
     list_display_links = ('name',)
-    list_editable = ('load',)
-    list_filter = ['subject_type']
+    list_filter = ('subject_type',)
     search_fields = ['name__icontains']
     filter_horizontal = ('speakers', 'classrooms')
 
@@ -60,6 +59,26 @@ class ClassroomAdmin(admin.ModelAdmin):
     list_editable = ('size',)
     search_fields = ['name__icontains']
 
+class SpeakerBlockedTimeDistanceAdmin(admin.ModelAdmin):
+
+    list_display = ('speaker', 'date_day', 'class_number')
+    search_fields = ['speaker__icontains']
+
+class SpeakerBlockedTimeFulltimeAdmin(admin.ModelAdmin):
+
+    list_display = ('speaker', 'week_parity', 'class_number', 'day')
+    search_fields = ['speaker__icontains']
+
+class LoadAdmin(admin.ModelAdmin):
+
+    list_display = ('term', 'group', 'subject', 'hours_count')
+    search_fields = ['subject__icontains']
+    list_filter = ('term', 'group', 'subject')
+
+class TermAdmin(admin.ModelAdmin):
+
+    list_display = ('number', 'weeks_count_fulltime', 'weeks_count_distance')
+
 
 admin.site.register(Classroom, ClassroomAdmin)
 admin.site.register(StudyGroup, StudyGroupAdmin)
@@ -68,3 +87,7 @@ admin.site.register(LessonDistance, LessonDistanceAdmin)
 admin.site.register(Speaker, SpeakerAdmin)
 admin.site.register(Weeks, WeeksAdmin)
 admin.site.register(Subject, SubjectAdmin)
+admin.site.register(SpeakerBlockedTimeDistance, SpeakerBlockedTimeDistanceAdmin)
+admin.site.register(SpeakerBlockedTimeFulltime, SpeakerBlockedTimeFulltimeAdmin)
+admin.site.register(Term, TermAdmin)
+admin.site.register(Load, LoadAdmin)

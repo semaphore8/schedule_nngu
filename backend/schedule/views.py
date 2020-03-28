@@ -1,7 +1,7 @@
 import datetime
 from rest_framework import viewsets, generics
-from .serializers.serializers import LessonDistanceSerializer, StudyGroupSerializer, WeeksSerializer, LessonFulltimeSerializer, SubjectSerializer
-from .models import StudyGroup, LessonDistance, Weeks, LessonFulltime, Subject
+from .serializers.serializers import LessonDistanceSerializer, StudyGroupSerializer, WeeksSerializer, LessonFulltimeSerializer, SubjectSerializer, SpeakerBlockedTimeFulltimeSerializer, SpeakerBlockedTimeDistanceSerializer, TermSerializer, LoadSerializer
+from .models import StudyGroup, LessonDistance, Weeks, LessonFulltime, Subject, SpeakerBlockedTimeFulltime, SpeakerBlockedTimeDistance, Load, Term
 from .utils.calcutale import GetLessonsIn3Months, GetFirstDaysOfAllWeeks, ActualizeCurrentWeek
 from datetime import timedelta, date, datetime
 from dateutil.relativedelta import relativedelta
@@ -30,3 +30,24 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     queryset = Subject.objects.all() 
     serializer_class = SubjectSerializer
+
+class SpeakerBlockedTimeFulltimeViewSet(viewsets.ModelViewSet):
+
+    queryset = SpeakerBlockedTimeFulltime.objects.all()
+    serializer_class = SpeakerBlockedTimeFulltimeSerializer
+
+class SpeakerBlockedTimeDistanceViewSet(viewsets.ModelViewSet):
+
+    queryset = SpeakerBlockedTimeDistance.objects.all()
+    serializer_class = SpeakerBlockedTimeDistanceSerializer
+
+class LoadViewSet(viewsets.ModelViewSet):
+
+    queryset = Load.objects.all()
+    serializer_class = LoadSerializer
+
+class TermViewSet(viewsets.ModelViewSet):
+
+    queryset = Term.objects.all()
+    serializer_class = TermSerializer
+
