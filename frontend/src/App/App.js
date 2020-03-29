@@ -1,17 +1,16 @@
 import React from 'react';
-import './Main-wrapper.css';
 import './Body.css';
 import './Footer.css';
 import './Header.css';
-import DropdownGroups from './Components/Navigation/DropdownGroups';
-import DropdownWeeks from './Components/Navigation/DropdownWeeks';
-import Switch from './Components/Navigation/Switch';
-import getWeekNumber from './Utils/GetWeekNumber';
-import getMonthsNames from './Utils/GetMonthsNames';
-import getWeeksDays from './Utils/GetWeeksDays'
-import ScheduleRowWithContent from './Components/Body/ScheduleRowWithContent'
-import ScheduleCellWithWeekDays from './Components/Body/ScheduleCellWithWeekDays'
-import { ApiURI, class_timetable } from './Utils/AppConfig'
+import DropdownGroups from '../Components/Navigation/DropdownGroups';
+import DropdownWeeks from '../Components/Navigation/DropdownWeeks';
+import Switch from '../Components/Navigation/WeeksSwitch';
+import getWeekNumber from '../Utils/GetWeekNumber';
+import getMonthsNames from '../Utils/GetMonthsNames';
+import getWeeksDays from '../Utils/GetWeeksDays'
+import ScheduleRowWithContent from '../Components/Body/ScheduleRowWithContent'
+import ScheduleCellWithWeekDays from '../Components/Body/ScheduleCellWithWeekDays'
+import { ApiURI, class_timetable } from '../Utils/AppConfig'
 
 class App extends React.Component {
 
