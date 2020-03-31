@@ -13,7 +13,7 @@ export default function Admin() {
     const [groupValue, setGroupValue] = React.useState('');
     const [groupChoices, setGroupChoices] = React.useState([]);
     const handleChangeGroup = (event, value) => {
-        value ? setGroupValue(value.name) : setGroupValue('');
+        value ? setGroupValue(value.id) : setGroupValue('');
     }
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function Admin() {
     },[])
     
     
-    const [termValue, setTermValue] = React.useState();
+    const [termValue, setTermValue] = React.useState('');
     const [termChoices, setTermChoices] = React.useState([]);
     const handleChangeTerm = (event) => {
         setTermValue(event.target.value);
@@ -42,22 +42,24 @@ export default function Admin() {
         };
         fetchData();
     },[])
+
+    const [loads, setLoads] = React.useState([]);
+
+    useEffect(() => {
+        if (termValue && groupValue) {
+            const fetchData = async () => {
+                const result = await fetch(ApiURI + '/loads/')
+                .then(response => response.json())
+                .then(result => {
+                    setLoads(
+                        result.filter(load => load.group == groupValue && load.term == termValue)
+                    )
+                });
+            };
+            fetchData();
+        }
+    },[groupValue, termValue])
     
-    // 
-
-    // const termChoices = [
-    //     {
-    //         'id': '1',
-    //         'number': '1',
-    //     },
-    //     {
-    //         'id': 2,
-    //         'number': '2',
-    //     },
-    // ]
-
-    
-
     const loadTitles = [
         'Предмет', 
         'Количество часов', 
@@ -122,6 +124,9 @@ export default function Admin() {
                 useStyles={useStyles}
                 rows={rows}
              />
+             <div>
+                 {console.log({loads})}
+             </div>
         </div>
     )
 }

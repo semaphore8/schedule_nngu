@@ -87,8 +87,12 @@ class TermSerializer(serializers.ModelSerializer):
         model = Term
         fields = ['id', 'number', 'weeks_count_fulltime', 'weeks_count_distance']
 
+
+
 class LoadSerializer(serializers.ModelSerializer):
+
+    subject_name = SubjectNameSerializer(source='subject')
 
     class Meta:
         model = Load
-        fields = ['term', 'group', 'subject', 'hours_count']
+        fields = ['term', 'group', 'subject_name', 'hours_count']

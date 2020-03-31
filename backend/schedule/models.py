@@ -171,6 +171,7 @@ class Load(models.Model):
     class Meta:
         verbose_name = 'Нагрузка'
         verbose_name_plural = 'Нагрузка'
+        unique_together = ['term', 'group', 'subject']
 
     def __str__(self):
         return str(self.subject) + ' ' + str(self.group)
