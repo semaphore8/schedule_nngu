@@ -1,7 +1,7 @@
 from django.db import models
 from schedule.utils.calcutale import GetFirstDaysOfAllWeeks, GetLessonsIn3Months
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 class Speaker(models.Model):
     name = models.CharField('ФИО', max_length=70, unique=True)
@@ -153,6 +153,17 @@ class Term(models.Model):
     number = models.CharField('Номер', max_length=5, choices=number_choices, blank=True)
     weeks_count_fulltime = models.CharField('Кол-во недель (дневное)', max_length=5, blank=True)
     weeks_count_distance = models.CharField('Кол-во недель (вечернее)', max_length=5,  blank=True)
+    distance_first_day = models.DateField('Первый день сессии заочников', null=True)
+    distance_last_day = models.DateField('Последний день сессии заочников', null=True)
+    
+    def GetDistanceWeeks(self):
+        days = []
+        T1 = self.distance_first_day
+        T2 = self.distance_last_day
+        for i in range((T2-T1).days+1): 
+            days.append((T1+timedelta(days=i)).__str__())
+        
+        return GetFirstDaysOfAllWeeks(days)
 
     class Meta:
         verbose_name = 'Семестр'

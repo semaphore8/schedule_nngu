@@ -77,8 +77,8 @@ class LoadAdmin(admin.ModelAdmin):
 
 class TermAdmin(admin.ModelAdmin):
 
-    list_display = ('number', 'weeks_count_fulltime', 'weeks_count_distance')
-
+    list_display = ('number', 'weeks_count_fulltime', 'weeks_count_distance', 'distance_first_day', 'distance_last_day')
+    ordering = ('number',)
 
 admin.site.register(Classroom, ClassroomAdmin)
 admin.site.register(StudyGroup, StudyGroupAdmin)

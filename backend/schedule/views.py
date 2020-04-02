@@ -9,7 +9,8 @@ from dateutil.relativedelta import relativedelta
 class LessonDistanceViewSet(viewsets.ModelViewSet):
 
     ActualizeCurrentWeek()
-    queryset = LessonDistance.objects.filter(date_day__lt=str(date.today() + relativedelta(months=+3)), date_day__gt=str(date.today() + relativedelta(months=-3)))
+    # queryset = LessonDistance.objects.filter(date_day__lt=str(date.today() + relativedelta(months=+3)), date_day__gt=str(date.today() + relativedelta(months=-3)))
+    queryset = LessonDistance.objects.all()
     serializer_class = LessonDistanceSerializer
 
 class LessonFulltimeViewSet(viewsets.ModelViewSet):

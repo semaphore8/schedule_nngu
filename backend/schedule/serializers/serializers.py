@@ -83,9 +83,11 @@ class SpeakerBlockedTimeDistanceSerializer(serializers.ModelSerializer):
 
 class TermSerializer(serializers.ModelSerializer):
 
+    weeks = serializers.ListField(source='GetDistanceWeeks')
+
     class Meta:
         model = Term
-        fields = ['id', 'number', 'weeks_count_fulltime', 'weeks_count_distance']
+        fields = ['id', 'number', 'weeks_count_fulltime', 'weeks_count_distance', 'distance_first_day', 'distance_last_day', 'weeks']
 
 
 
