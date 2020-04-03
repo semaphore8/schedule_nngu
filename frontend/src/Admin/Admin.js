@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RadioButtonsGroup from './Components/RadioButtonsGroup'
 import ComboBox from './Components/ComboBox'
 import SimpleTable from './Components/SimpleTable'
+import Select from './Components/Select'
 import { ApiURI } from '../AppConfig';
 
 
@@ -18,9 +19,9 @@ export default function Admin() {
         'Пар в неделю'
     ]
 
-    // Tables styles
+    // Components styles
 
-    const useStyles = makeStyles({
+    const loadTableStyles = makeStyles({
         table: {
             maxWidth: 950,
         },
@@ -29,27 +30,45 @@ export default function Admin() {
         },
     });
 
+    const selectStyles = makeStyles((theme) => ({
+        formControl: {
+          margin: theme.spacing(1),
+          minWidth: 120,
+        },
+        selectEmpty: {
+          marginTop: theme.spacing(2),
+        },
+      }));
+
     // State hooks
     
-    const [choosenGroup, setChoosenGroup] = React.useState('');
+    const [selectedGroup, setSelectedGroup] = React.useState('');
     const [groupChoices, setGroupChoices] = React.useState([]);
     
-    const [choosenTerm, setChoosenTerm] = React.useState('');
+    const [selectedTerm, setSelectedTerm] = React.useState('');
     const [termChoices, setTermChoices] = React.useState([]);
     
     const [loads, setLoads] = React.useState([]);
 
     const [lessons, setLessons] = React.useState([]);
 
+    const [selectedWeek, setSelectedWeek] = React.useState('');
+
     // handle components changes
 
     const handleChangeTerm = (event) => {
-        setChoosenTerm(termChoices.filter(term => term.number === event.target.value)[0]);
+        setSelectedTerm(termChoices.filter(term => term.number === event.target.value)[0]);
+        setSelectedWeek('');
     };
 
     const handleChangeGroup = (event, value) => {
-        value ? setChoosenGroup(value) : setChoosenGroup('');
+        value ? setSelectedGroup(value) : setSelectedGroup('');
+        setSelectedWeek('');
     }
+
+    const handleChangeWeek = (event) => {
+        setSelectedWeek(event.target.value);
+    };
 
     // data fetching
 
@@ -81,64 +100,49 @@ export default function Admin() {
     },[])
   
     useEffect(() => {
-        if (choosenTerm && choosenGroup) {
+        if (selectedTerm && selectedGroup) {
             const fetchData = async () => {
                 const result = await fetch(ApiURI + '/loads/')
                 .then(response => response.json())
                 .then(result => {
                     setLoads(
-                        result.filter(load => load.group === choosenGroup.id && load.term === choosenTerm.id)
+                        result.filter(load => load.group === selectedGroup.id && load.term === selectedTerm.id)
                     )
                 });
             };
             fetchData();
         };
 
-        if (choosenGroup.mode_of_study === 'distance') {
+        if (selectedGroup.mode_of_study === 'distance') {
             const fetchData = async () => {
                 const result = await fetch(ApiURI + '/lessons_distance/')
                 .then(response => response.json())
                 .then(result => {
                     setLessons(
-                        result.filter(lesson => lesson.term === choosenTerm.number)
+                        result.filter(lesson => lesson.term === selectedTerm.number)
                     )
                 });
                 };
                 fetchData();
             };
             
-        if (choosenGroup.mode_of_study === 'fulltime') {
+        if (selectedGroup.mode_of_study === 'fulltime') {
             const fetchData = async () => {
                 const result = await fetch(ApiURI + '/lessons_fulltime/')
                 .then(response => response.json())
                 .then(result => {
                     setLessons(
-                        result.filter(lesson => lesson.term === choosenTerm.number)
+                        result.filter(lesson => lesson.term === selectedTerm.number)
                     )
                 });
                 };
                 fetchData();
             };
 
-    },[choosenGroup, choosenTerm])
-    
-    
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-    
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
-    
-
+    },[selectedGroup, selectedTerm])
 
     return (
-        <div>{console.log(lessons, choosenTerm.id)}
+        <div>
             <h2>
             Admin interface
             </h2>
@@ -158,7 +162,7 @@ export default function Admin() {
             {
                 termsLoading ? (<div><i>Terms is loading...</i></div>) : (
                     <RadioButtonsGroup 
-                        label="Term"
+                        label="Семестр"
                         handleChange={handleChangeTerm}
                         choices={termChoices}
                     />
@@ -167,12 +171,26 @@ export default function Admin() {
             <br />
             <SimpleTable
                 titles={loadTitles}
-                useStyles={useStyles}
+                useStyles={loadTableStyles}
                 lessons={lessons}
                 loads={loads}
-                choosenTerm={choosenTerm}
-                study_mode={choosenGroup.mode_of_study}
+                selectedTerm={selectedTerm}
+                study_mode={selectedGroup.mode_of_study}
              />
+            <br />
+            {
+                (selectedGroup && selectedTerm) &&
+                <div>
+                    <Select
+                    useStyles={selectStyles}
+                    handleChange={handleChangeWeek}
+                    value={selectedWeek}
+                    label="Неделя"
+                    values={selectedGroup.mode_of_study === 'distance' ? selectedTerm.weeks : ['Чётная', 'Нечётная']}
+                    />
+                    <span>{selectedWeek}</span>
+                </div>
+            }
         </div>
     )
 }
