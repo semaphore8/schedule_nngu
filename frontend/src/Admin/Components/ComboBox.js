@@ -11,7 +11,7 @@ export default function ComboBox(props) {
         noOptionsText={props.noOptionsText}
         id={props.label}
         options={props.options}
-        getOptionLabel={option => option.name}
+        getOptionLabel={props.getOptionLabel}
         disableClearable={true}
         style={{ width: 300 }}
         renderInput={params => <TextField {...params} label={props.label} variant="outlined" />}

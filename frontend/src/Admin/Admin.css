@@ -1,3 +1,25 @@
+.Admin {
+    font-family: 'Roboto', sans-serif;
+}
+
+.Admin a {
+	color: #3f51b5;
+	text-decoration-color: #3f51b5;
+	margin-right: 5px;
+}
+
+.Admin a:visited{
+	color: #3f51b5;
+	text-decoration-color: #3f51b5;
+}
+
+.Admin a:hover{
+	color: #3f51b5;
+	text-decoration-color: #3f51b5;
+	background: #e2e6ff;
+}
+
 .admin-schedule .Schedule-wrapper {
-    height: auto;
+	height: auto;
+	margin: 2rem 0 2rem 0;
 }

@@ -37,7 +37,7 @@ export default function Admin() {
     const selectStyles = makeStyles((theme) => ({
         formControl: {
           margin: theme.spacing(1),
-          minWidth: 120,
+          minWidth: 150,
         },
         selectEmpty: {
           marginTop: theme.spacing(2),
@@ -57,31 +57,58 @@ export default function Admin() {
     const [lessons, setLessons] = React.useState([]);
 
     const [selectedWeek, setSelectedWeek] = React.useState('');
-
+    
     const [days, setDays] = React.useState([]);
+
+    const [selectedSubject, setSelectedSubject] = React.useState('');
+    const [selectedSpeaker, setSelectedSpeaker] = React.useState('');
+    const [selectedClassroom, setSelectedClassroom] = React.useState('');
+    const [speakerChoices, setSpeakerChoices] = React.useState([]);
+    const [classroomChoices, setClassroomChoices] = React.useState([]);
 
     // handle components changes
 
     const handleChangeTerm = (event) => {
         setSelectedTerm(termChoices.filter(term => term.number === event.target.value)[0]);
         setSelectedWeek('');
+        setSelectedSpeaker('');
+        setSelectedClassroom('');
+        setSelectedSubject('');
     };
 
     const handleChangeGroup = (event, value) => {
         value ? setSelectedGroup(value) : setSelectedGroup('');
         setSelectedWeek('');
+        setSelectedSpeaker('');
+        setSelectedClassroom('');
+        setSelectedSubject('');
     }
 
     const handleChangeWeek = (event) => {
         setSelectedWeek(event.target.value);
     };
 
+    const handleChangeSpeaker = (event) => {
+        setSelectedSpeaker(event.target.value);
+    };
+    
+    const handleChangeSubject = (event, value) => {
+        setSelectedSubject(value.id);
+        setSelectedSpeaker('');
+        setSelectedClassroom('');
+    };
+
+    const handleChangeClassroom = (event) => {
+        setSelectedClassroom(event.target.value);
+    };
+
     // data fetching
 
     const [groupsLoading, setGroupsLoading] = React.useState(false);
     const [termsLoading, setTermsLoading] = React.useState(false);
-    const [groupsError, setGroupsError] = React.useState(false);
-    const [termsError, setTermsError] = React.useState(false);
+    const [subjectInfoLoading, setSubjectInfoLoading] = React.useState(false);
+    // const [groupsError, setGroupsError] = React.useState(false);
+    // const [termsError, setTermsError] = React.useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -108,7 +135,7 @@ export default function Admin() {
     useEffect(() => {
         if (selectedTerm && selectedGroup) {
             const fetchData = async () => {
-                const result = await fetch(ApiURI + '/loads/')
+                await fetch(ApiURI + '/loads/')
                 .then(response => response.json())
                 .then(result => {
                     setLoads(
@@ -121,7 +148,7 @@ export default function Admin() {
 
         if (selectedGroup.mode_of_study === 'distance') {
             const fetchData = async () => {
-                const result = await fetch(ApiURI + '/lessons_distance/')
+                await fetch(ApiURI + '/lessons_distance/')
                 .then(response => response.json())
                 .then(result => {
                     setLessons(
@@ -134,7 +161,7 @@ export default function Admin() {
             
         if (selectedGroup.mode_of_study === 'fulltime') {
             const fetchData = async () => {
-                const result = await fetch(ApiURI + '/lessons_fulltime/')
+                await fetch(ApiURI + '/lessons_fulltime/')
                 .then(response => response.json())
                 .then(result => {
                     setLessons(
@@ -147,6 +174,21 @@ export default function Admin() {
 
     },[selectedGroup, selectedTerm])
 
+    useEffect(() => {
+        if (selectedSubject) {
+            const fetchData = async () => {
+                setSubjectInfoLoading(true);
+                const result = await fetch(ApiURI + '/subjects/' + selectedSubject)
+                .then(response => response.json());
+                console.log('result in fetch', result);
+                setSpeakerChoices(result.speaker_list);
+                setClassroomChoices(result.classrooms_list);
+                setSubjectInfoLoading(false);
+            };
+            fetchData();
+        };
+    },[selectedSubject])
+
     // effect hooks
 
     useEffect(() => {
@@ -154,13 +196,13 @@ export default function Admin() {
     },[selectedWeek])
 
     return (
-        <div>
-            <Link to="./">Вернуться к расписанию 🎓</Link>  
+        <div className="Admin">{console.log(speakerChoices, classroomChoices)}
+            <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
             <h2>
             Административный интерфейс
             </h2>
             {
-                groupsLoading ? (<div><i>Groups is loading...</i></div>) : (
+                groupsLoading ? (<div><i>Groups are loading...</i></div>) : (
                     <ComboBox 
                         label="Группа"
                         options={groupChoices}
@@ -168,12 +210,13 @@ export default function Admin() {
                         noOptionsText="Группа не найдена"
                         autoHighlight={true}
                         handleChange={handleChangeGroup}
+                        getOptionLabel={option => option.name}
                     />
                 )
             }
             <br />
             {
-                termsLoading ? (<div><i>Terms is loading...</i></div>) : (
+                termsLoading ? (<div><i>Terms are loading...</i></div>) : (
                     <RadioButtonsGroup 
                         label="Семестр"
                         handleChange={handleChangeTerm}
@@ -238,6 +281,41 @@ export default function Admin() {
                     </div>
                 }
             </div>
+            {
+                selectedWeek &&
+                <ComboBox 
+                        label="Предмет"
+                        options={loads.map(load => load.subject_name)}
+                        clearText="Очистить"
+                        noOptionsText="Предмет не найден"
+                        autoHighlight={true}
+                        handleChange={handleChangeSubject}
+                        getOptionLabel={option => option.name + ' - ' + option.s_type}
+                />
+            }
+            {
+                (selectedSubject && selectedWeek && subjectInfoLoading) && 
+                    <div><i>Subject info is loading...</i></div> 
+            }
+            {
+                (selectedSubject && selectedWeek && !subjectInfoLoading) &&
+                        <div>
+                            <Select
+                                useStyles={selectStyles}
+                                handleChange={handleChangeSpeaker}
+                                value={selectedSpeaker}
+                                label="Преподаватель"
+                                values={speakerChoices.map(speaker => speaker.name)}
+                            />
+                            <Select
+                                useStyles={selectStyles}
+                                handleChange={handleChangeClassroom}
+                                value={selectedClassroom}
+                                label="Аудитория"
+                                values={classroomChoices.map(classroom => classroom.name)}
+                            />
+                        </div>
+            }
         </div>
     )
 }

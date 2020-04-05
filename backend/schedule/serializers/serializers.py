@@ -7,7 +7,7 @@ class SubjectNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = ['name', 's_type']
+        fields = ['id', 'name', 's_type']
 
 class LessonFulltimeSerializer(serializers.ModelSerializer):
 
@@ -62,12 +62,13 @@ class ClassroomsListSerializer(serializers.ModelSerializer):
 
 class SubjectSerializer(serializers.ModelSerializer):
 
+    fullname = serializers.CharField(source='__str__')
     speaker_list = SpeakersListSerializer(many = True, required = False, source='speakers')
     classrooms_list = ClassroomsListSerializer(many = True, required = False, source='classrooms')
 
     class Meta:
         model = Subject
-        fields = ['speaker_list', 'classrooms_list']
+        fields = ['fullname', 'speaker_list', 'classrooms_list']
 
 class SpeakerBlockedTimeFulltimeSerializer(serializers.ModelSerializer):
 
