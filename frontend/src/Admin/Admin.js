@@ -180,7 +180,6 @@ export default function Admin() {
                 setSubjectInfoLoading(true);
                 const result = await fetch(ApiURI + '/subjects/' + selectedSubject)
                 .then(response => response.json());
-                console.log('result in fetch', result);
                 setSpeakerChoices(result.speaker_list);
                 setClassroomChoices(result.classrooms_list);
                 setSubjectInfoLoading(false);
@@ -196,7 +195,7 @@ export default function Admin() {
     },[selectedWeek])
 
     return (
-        <div className="Admin">{console.log(speakerChoices, classroomChoices)}
+        <div className="Admin">{console.log(days, lessons)}
             <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
             <h2>
             Административный интерфейс
@@ -211,6 +210,7 @@ export default function Admin() {
                         autoHighlight={true}
                         handleChange={handleChangeGroup}
                         getOptionLabel={option => option.name}
+                        style={{ width: 170 }}
                     />
                 )
             }
@@ -291,6 +291,7 @@ export default function Admin() {
                         autoHighlight={true}
                         handleChange={handleChangeSubject}
                         getOptionLabel={option => option.name + ' - ' + option.s_type}
+                        style={{ width: 400 }}
                 />
             }
             {
