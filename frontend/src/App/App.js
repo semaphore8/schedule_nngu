@@ -154,7 +154,8 @@ class App extends React.Component {
             :
             alert('Текущая неделя не найдена. Обратитесь к администратору.')
         } else if (this.state.study_mode === 'fulltime') {
-            let current_week = getWeekNumber();
+            let now = new Date();
+            let current_week = getWeekNumber(now);
             if (current_week % 2 === 0) 
             this.myRef.current.changeSelectedWeekFulltime('even')
             else if (current_week % 2 === 1) 

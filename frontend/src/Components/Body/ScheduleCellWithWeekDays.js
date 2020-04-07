@@ -3,7 +3,8 @@ import getWeekNumber from '../../Utils/GetWeekNumber'
 
 export default function ScheduleCellWithWeekDays(props) {
     let date = new Date();
-    let current_week = getWeekNumber();
+    let now = new Date();
+    let current_week = getWeekNumber(now);
     let current_week_parity = current_week % 2 === 0 ? 'even' : 'uneven';
 
     return( 
