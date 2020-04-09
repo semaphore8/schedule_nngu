@@ -10,9 +10,9 @@ export default function RadioButtonsGroup(props) {
     return (
       <FormControl component="fieldset">
         <FormLabel component="legend">{props.label}</FormLabel>
-        <RadioGroup aria-label="term" name="term" value={props.termValue} onChange={props.handleChange}>
+        <RadioGroup aria-label="term" name="term" value={props.termValue} onChange={props.handleChange} row={true}>
           {props.choices.map(term => 
-              <FormControlLabel value={term.number} key={term.number} control={<Radio />} label={term.number} />
+              <FormControlLabel value={term.number} key={term.number} control={<Radio />} label={term.number} labelPlacement="end"/>
           )}
         </RadioGroup>
       </FormControl>

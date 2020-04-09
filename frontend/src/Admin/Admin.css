@@ -26,3 +26,7 @@
 	height: auto;
 	margin: 2rem 0 2rem 0;
 }
+
+.Admin .selects {
+	display: flex;
+}

@@ -254,35 +254,37 @@ export default function Admin() {
     
     return (
         <div className="Admin"> {console.log(scheduleFreeSlotsArray)}
-            <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
-            <h2>
-            Административный интерфейс
-            </h2>
-            {
-                groupsAndTermsLoading ? (<div><i>Groups are loading...</i></div>) : (
-                    <ComboBox 
-                        label="Группа"
-                        options={groupChoices}
-                        clearText="Очистить"
-                        noOptionsText="Группа не найдена"
-                        autoHighlight={true}
-                        handleChange={handleChangeGroup}
-                        getOptionLabel={option => option.name}
-                        style={{ width: 170 }}
-                    />
-                )
-            }
-            <br />
-            {
-                groupsAndTermsLoading ? (<div><i>Terms are loading...</i></div>) : (
-                    <RadioButtonsGroup 
-                        label="Семестр"
-                        handleChange={handleChangeTerm}
-                        choices={termChoices}
-                    />
-                )
-            }
-            <br />
+            <div className="header">
+                <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
+                <h2>
+                Административный интерфейс
+                </h2>
+            </div>
+            <div className="selects">
+                {
+                    groupsAndTermsLoading ? (<div><i>Groups are loading...</i></div>) : (
+                        <ComboBox 
+                            label="Группа"
+                            options={groupChoices}
+                            clearText="Очистить"
+                            noOptionsText="Группа не найдена"
+                            autoHighlight={true}
+                            handleChange={handleChangeGroup}
+                            getOptionLabel={option => option.name}
+                            style={{ width: 170, marginRight: 16 }}
+                        />
+                    )
+                }
+                {
+                    groupsAndTermsLoading ? (<div><i>Terms are loading...</i></div>) : (
+                        <RadioButtonsGroup 
+                            label="Семестр"
+                            handleChange={handleChangeTerm}
+                            choices={termChoices}
+                        />
+                    )
+                }
+            </div>
             <LoadsTable
                 titles={loadTitles}
                 useStyles={loadTableStyles}
@@ -292,18 +294,56 @@ export default function Admin() {
                 study_mode={selectedGroup.mode_of_study}
              />
             <br />
-            {
-                (selectedGroup && selectedTerm) &&
-                <div>
-                    <Select
-                    useStyles={selectStyles}
-                    handleChange={handleChangeWeek}
-                    value={selectedWeek}
-                    label="Неделя"
-                    values={selectedGroup.mode_of_study === 'distance' ? selectedTerm.weeks : ['Чётная', 'Нечётная']}
+            <div className="selects">
+                {
+                    (selectedGroup && selectedTerm) &&
+                    <div>
+                        <Select
+                        useStyles={selectStyles}
+                        handleChange={handleChangeWeek}
+                        value={selectedWeek}
+                        label="Неделя"
+                        values={selectedGroup.mode_of_study === 'distance' ? selectedTerm.weeks : ['Чётная', 'Нечётная']}
+                        />
+                    </div>
+                }
+                {
+                    selectedWeek &&
+                    <ComboBox 
+                            label="Предмет"
+                            options={loads.map(load => load.subject_name)}
+                            clearText="Очистить"
+                            noOptionsText="Предмет не найден"
+                            autoHighlight={true}
+                            handleChange={handleChangeSubject}
+                            getOptionLabel={option => option.name + ' - ' + option.s_type}
+                            style={{ width: 400, margin: 8 }}
                     />
-                </div>
-            }
+                }
+                {
+                    (selectedSubject && selectedWeek && subjectInfoLoading) && 
+                        <div><i>Subject info is loading...</i></div> 
+                }
+                {
+                    (selectedSubject && selectedWeek && !subjectInfoLoading) &&
+                            <div className="selects">
+                                <Select
+                                    useStyles={selectStyles}
+                                    handleChange={handleChangeSpeaker}
+                                    value={selectedSpeaker}
+                                    label="Преподаватель"
+                                    values={speakerChoices.map(speaker => speaker.name)}
+                                />
+                                <Select
+                                    useStyles={selectStyles}
+                                    handleChange={handleChangeClassroom}
+                                    value={selectedClassroom}
+                                    label="Аудитория"
+                                    values={classroomChoices.map(classroom => classroom.name)}
+                                />
+                            </div>
+                }
+            </div>
             <div className="admin-schedule">
                 {
                     selectedWeek &&
@@ -339,42 +379,6 @@ export default function Admin() {
                     </div>
                 }
             </div>
-            {
-                selectedWeek &&
-                <ComboBox 
-                        label="Предмет"
-                        options={loads.map(load => load.subject_name)}
-                        clearText="Очистить"
-                        noOptionsText="Предмет не найден"
-                        autoHighlight={true}
-                        handleChange={handleChangeSubject}
-                        getOptionLabel={option => option.name + ' - ' + option.s_type}
-                        style={{ width: 400 }}
-                />
-            }
-            {
-                (selectedSubject && selectedWeek && subjectInfoLoading) && 
-                    <div><i>Subject info is loading...</i></div> 
-            }
-            {
-                (selectedSubject && selectedWeek && !subjectInfoLoading) &&
-                        <div>
-                            <Select
-                                useStyles={selectStyles}
-                                handleChange={handleChangeSpeaker}
-                                value={selectedSpeaker}
-                                label="Преподаватель"
-                                values={speakerChoices.map(speaker => speaker.name)}
-                            />
-                            <Select
-                                useStyles={selectStyles}
-                                handleChange={handleChangeClassroom}
-                                value={selectedClassroom}
-                                label="Аудитория"
-                                values={classroomChoices.map(classroom => classroom.name)}
-                            />
-                        </div>
-            }
         </div>
     )
 }
