@@ -9,18 +9,21 @@
 }
 
 .Footer a {
-	color: #3f51b5;
-	text-decoration-color: #3f51b5;
+	color: black;
+	border-bottom: 2px solid #3f51b5;
+	text-decoration: none;
 	margin-right: 5px;
 }
 
 .Footer a:visited{
-	color: #3f51b5;
-	text-decoration-color: #3f51b5;
+	color: black;
+	border-bottom: 2px solid #3f51b5;
+	text-decoration: none;
 }
 
 .Footer a:hover{
-	color: #3f51b5;
-	text-decoration-color: #3f51b5;
-	background: #e2e6ff;
+	color: black;
+	text-decoration: none;
+	border-bottom: 2px solid #edf0ff;
+	background: #edf0ff;
 }

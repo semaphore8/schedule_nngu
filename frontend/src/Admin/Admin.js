@@ -11,6 +11,7 @@ import ScheduleRowWithContent from '../Components/Body/ScheduleRowWithContent';
 import ScheduleCellWithWeekDays from '../Components/Body/ScheduleCellWithWeekDays';
 import './Admin.css';
 import getWeekNumber from '../Utils/GetWeekNumber';
+import getFreeScheduleSlotsArray from '../Utils/GetFreeScheduleSlotsArray';
 
 export default function Admin() {
     
@@ -70,7 +71,11 @@ export default function Admin() {
 
     const [speakerClassesDistance, setSpeakerClassesDistance] = React.useState([]);
     const [speakerClassesFulltime, setSpeakerClassesFulltime] = React.useState([]);
+    const [speakerBlockedSlotsDistance, setSpeakerBlockedSlotsDistance] = React.useState([]);
+    const [speakerBlockedSlotsFulltime, setSpeakerBlockedSlotsFulltime] = React.useState([]);
 
+    const [scheduleFreeSlotsArray, setScheduleFreeSlotsArray] = React.useState([]);
+    
 
     // handle components changes
 
@@ -110,31 +115,22 @@ export default function Admin() {
 
     // data fetching
 
-    const [groupsLoading, setGroupsLoading] = React.useState(false);
-    const [termsLoading, setTermsLoading] = React.useState(false);
     const [subjectInfoLoading, setSubjectInfoLoading] = React.useState(false);
-    const [speakerClassesLoading, setSpeakerClassesLoading] = React.useState(false);
+    const [speakerDataLoaded, setSpeakerDataLoaded] = React.useState(false);
+    const [speakerDataLoading, setSpeakerDataLoading] = React.useState(false);
+    const [groupsAndTermsLoading, setGroupsAndTermsLoading] = React.useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            setGroupsLoading(true);            
-            const result_groups = await fetch(ApiURI + '/groups/')
-            .then(response => response.json());
-            setGroupChoices(result_groups);
-            setGroupsLoading(false);
-            console.log('groups fetched');
-        };
-        fetchData();
-    },[])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setTermsLoading(true); 
-            const result_terms = await fetch(ApiURI + '/terms/')
-            .then(response => response.json());
-            setTermChoices(result_terms);
-            setTermsLoading(false); 
-            console.log('terms fetched');
+            setGroupsAndTermsLoading(true);            
+            await fetch(ApiURI + '/groups/')
+            .then(response => response.json())
+            .then(result => setGroupChoices(result));
+            await fetch(ApiURI + '/terms/')
+            .then(response => response.json())
+            .then(result => setTermChoices(result))
+            setGroupsAndTermsLoading(false);
+            console.log('groups and terms fetched');
         };
         fetchData();
     },[])
@@ -201,34 +197,47 @@ export default function Admin() {
 
     useEffect(() => {
         if (selectedSpeaker) {
-            const fetchDistanceClasses = async () => {
-                setSpeakerClassesLoading(true);
+            const fetchData = async () => {
+                setSpeakerDataLoading(true);
                 await fetch(ApiURI + '/lessons_distance/')
                 .then(response => response.json())
                 .then(result => 
                         setSpeakerClassesDistance(result.filter(c => c.speaker === selectedSpeaker && c.term === selectedTerm.id))
                     );
-                setSpeakerClassesLoading(false);
-                console.log('speaker d classes fetched');
-            };
-            fetchDistanceClasses();
-    
-            const fetchFulltimeClasses = async () => {
-                setSpeakerClassesLoading(true);
                 await fetch(ApiURI + '/lessons_fulltime/')
                 .then(response => response.json())
                 .then(result => 
                         setSpeakerClassesFulltime(result.filter(c => c.speaker === selectedSpeaker && c.term === selectedTerm.id))
                     );
-                setSpeakerClassesLoading(false);
-                console.log('speaker f classes fetched');
+                await fetch(ApiURI + '/speakerblockedtimefulltime/')
+                .then(response => response.json())
+                .then(result => 
+                        setSpeakerBlockedSlotsFulltime(result.filter(slot => slot.speaker_info.name === selectedSpeaker))
+                    );
+                await fetch(ApiURI + '/speakerblockedtimedistance/')
+                .then(response => response.json())
+                .then(result => 
+                        setSpeakerBlockedSlotsDistance(result.filter(slot => slot.speaker_info.name === selectedSpeaker))
+                    );
+                setSpeakerDataLoading(false);
+                setSpeakerDataLoaded(true);
+                console.log('speaker`s data fetched');
             };
-            fetchFulltimeClasses();
+            fetchData();
         };
     }, [selectedSpeaker, selectedTerm.id])
 
 
     // effect hooks
+
+    useEffect(() => {
+        console.log('useEffect fired', speakerDataLoaded)
+
+        if (speakerDataLoaded) {
+            setScheduleFreeSlotsArray(getFreeScheduleSlotsArray(days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime));
+            setSpeakerDataLoaded(false);
+        }
+    },[speakerDataLoaded])
 
     useEffect(() => {
         if (selectedWeek) {
@@ -244,13 +253,13 @@ export default function Admin() {
 
     
     return (
-        <div className="Admin"> {console.log(selectedWeekParity)}
+        <div className="Admin"> {console.log(scheduleFreeSlotsArray)}
             <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
             <h2>
             Административный интерфейс
             </h2>
             {
-                groupsLoading ? (<div><i>Groups are loading...</i></div>) : (
+                groupsAndTermsLoading ? (<div><i>Groups are loading...</i></div>) : (
                     <ComboBox 
                         label="Группа"
                         options={groupChoices}
@@ -265,7 +274,7 @@ export default function Admin() {
             }
             <br />
             {
-                termsLoading ? (<div><i>Terms are loading...</i></div>) : (
+                groupsAndTermsLoading ? (<div><i>Terms are loading...</i></div>) : (
                     <RadioButtonsGroup 
                         label="Семестр"
                         handleChange={handleChangeTerm}
