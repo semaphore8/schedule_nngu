@@ -230,14 +230,16 @@ export default function Admin() {
     useEffect(() => {
         if (speakerDataLoaded) {
             var group_lessons = lessons.filter(l => l.study_group === selectedGroup.name);
-            setScheduleFreeSlotsArray(getFreeScheduleSlotsArray(days, group_lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime));
+            setScheduleFreeSlotsArray(getFreeScheduleSlotsArray(selectedGroup.mode_of_study, days, group_lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime));
 
             setSpeakerDataLoaded(false);
         }
-    }, [speakerDataLoaded, days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime])
+    }, [speakerDataLoaded, days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime, selectedGroup.name])
 
     useEffect(() => {
         if (selectedWeek) {
+            selectedWeek === "Чётная" && setSelectedWeekParity('even');
+            selectedWeek === "Нечётная" && setSelectedWeekParity('uneven');
             setDays(getWeeksDays(selectedWeek, selectedGroup.mode_of_study));
             let date = new Date(selectedWeek);
             let selectedWeekNumber = getWeekNumber(date);
@@ -250,9 +252,9 @@ export default function Admin() {
         if (selectedWeek && selectedSubject && selectedSpeaker) {
             var group_lessons = lessons.filter(l => l.study_group === selectedGroup.name);
             var updated_days = getWeeksDays(selectedWeek, selectedGroup.mode_of_study);
-            setScheduleFreeSlotsArray(getFreeScheduleSlotsArray(updated_days, group_lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime));
+            setScheduleFreeSlotsArray(getFreeScheduleSlotsArray(selectedGroup.mode_of_study, updated_days, group_lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime));
         }
-    }, [selectedWeek, selectedGroup.mode_of_study])
+    }, [selectedWeek, selectedGroup.mode_of_study, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime, lessons, selectedGroup.name, selectedSpeaker, selectedSubject])
 
     
     return (

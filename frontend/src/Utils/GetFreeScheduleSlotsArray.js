@@ -1,5 +1,5 @@
 // Try edit message
-export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime) {
+export default function getFreeScheduleSlotsArray(studyMode, days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime) {console.log(days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime)
   var res = days.map(d => d)
   for (let day of res) {
     
@@ -18,9 +18,11 @@ export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekPar
   			}
       );
     }
+  }
 
-    // handle "lesson" and "class_in_streak" properties
-
+  // handle "lesson" and "class_in_streak" properties
+  for (let day of res) {
+    if (studyMode === "distance") {
       for (let l of lessons) {
         for (let c in day.classes) {
           if (l.date_day === day.date && l.class_number === day.classes[c].number) 
@@ -31,6 +33,19 @@ export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekPar
           }
         }
       }
+    }
+    if (studyMode === "fulltime") {
+      for (let l of lessons) {
+        for (let c in day.classes) {
+          if (l.week_parity === selectedWeekParity && l.day === day.wday_en && l.class_number === day.classes[c].number)
+          {
+            day.classes[c].lesson = true;
+            try {day.classes[parseInt(c)+1].class_in_streak = true} catch(e) {};
+            try {day.classes[parseInt(c)-1].class_in_streak = true} catch(e) {};
+          }
+        }
+      }
+    }
 
     // handle "classes_count"
 
@@ -44,13 +59,15 @@ export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekPar
     // handle "speaker_is_free" 
 
       /*check speaker's distance classes*/
-  for (let c of speakerClassesDistance) {
-    if (c.date_day === day.date) {
-      for (let cl of day.classes) {
-        if (c.class_number === cl.number) cl.speaker_is_free = false
+      if (studyMode === "distance") {
+        for (let c of speakerClassesDistance) {
+          if (c.date_day === day.date) {
+            for (let cl of day.classes) {
+              if (c.class_number === cl.number) cl.speaker_is_free = false
+            }
+          }
+        }
       }
-    }
-  }
       /*check speaker's fulltime classes*/
   for (let c of speakerClassesFulltime) {
     if (c.day === day.wday_en && c.week_parity === selectedWeekParity) {
@@ -60,7 +77,7 @@ export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekPar
     }
   }
       /*check speaker's blocked class spots*/
-  
+      if (studyMode === "distance") {
   for (let s of speakerBlockedSlotsDistance) {
     if (s.date_day === day.date) {
       for (let cl of day.classes) {
@@ -68,6 +85,7 @@ export default function getFreeScheduleSlotsArray(days, lessons, selectedWeekPar
       }
     }
   }
+}
 
   for (let s of speakerBlockedSlotsFulltime) {
     if (s.day === day.wday_en && s.week_parity === selectedWeekParity) {
