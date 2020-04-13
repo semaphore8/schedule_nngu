@@ -1,5 +1,5 @@
 // Try edit message
-export default function getFreeScheduleSlotsArray(studyMode, days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime) {console.log(days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime)
+export default function getFreeScheduleSlotsArray(studyMode, days, lessons, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime) {
   var res = days.map(d => d)
   for (let day of res) {
     
@@ -96,7 +96,5 @@ export default function getFreeScheduleSlotsArray(studyMode, days, lessons, sele
   }
 
   }
-  console.log('days in func', days)
-
   return res
 }

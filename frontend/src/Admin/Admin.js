@@ -12,6 +12,7 @@ import ScheduleCellWithWeekDays from '../Components/Body/ScheduleCellWithWeekDay
 import './Admin.css';
 import getWeekNumber from '../Utils/GetWeekNumber';
 import getFreeScheduleSlotsArray from '../Utils/GetFreeScheduleSlotsArray';
+import addClassroomAvailabilityToScheduleFreeSlotsArray from '../Utils/AddClassroomAvailabilityToScheduleFreeSlotsArray';
 
 export default function Admin() {
     
@@ -256,6 +257,12 @@ export default function Admin() {
         }
     }, [selectedWeek, selectedGroup.mode_of_study, selectedWeekParity, speakerClassesDistance, speakerClassesFulltime, speakerBlockedSlotsDistance, speakerBlockedSlotsFulltime, lessons, selectedGroup.name, selectedSpeaker, selectedSubject])
 
+    useEffect(() => {
+        if (selectedSpeaker) {
+            console.log(selectedClassroom, scheduleFreeSlotsArray, lessons)
+            setScheduleFreeSlotsArray(addClassroomAvailabilityToScheduleFreeSlotsArray(selectedClassroom, scheduleFreeSlotsArray, lessons, selectedWeekParity))
+        }
+    }, [selectedClassroom])
     
     return (
         <div className="Admin"> 
@@ -339,14 +346,19 @@ export default function Admin() {
                                     label="Преподаватель"
                                     values={speakerChoices.map(speaker => speaker.name)}
                                 />
-                                <Select
-                                    useStyles={selectStyles}
-                                    handleChange={handleChangeClassroom}
-                                    value={selectedClassroom}
-                                    label="Аудитория"
-                                    values={classroomChoices.map(classroom => classroom.name)}
-                                />
                             </div>
+                }
+                {
+                    selectedSpeaker &&
+                    <div className="selects">
+                        <Select
+                            useStyles={selectStyles}
+                            handleChange={handleChangeClassroom}
+                            value={selectedClassroom}
+                            label="Аудитория"
+                            values={classroomChoices.map(classroom => classroom.name)}
+                        />
+                    </div>
                 }
             </div>
             <div className="admin-schedule">
