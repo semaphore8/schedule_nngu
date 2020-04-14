@@ -9,12 +9,28 @@ export default function ScheduleCellWithContent(props) {
 
     if (props.free_slots_array) var slotInfo = props.free_slots_array[0].classes.filter(cl => cl.number === props.class_number);
     
+    function handleClick(event) {
+        props.study_mode === 'distance' && console.log(event.target.attributes.date.value, event.target.attributes.classnumber.value)
+        props.study_mode === 'fulltime' && console.log(event.target.attributes.day.value, event.target.attributes.weekparity.value, event.target.attributes.classnumber.value)
+    }
+
     return(
-            <div className="Schedule-cell" key={props.class_number + props.day.wday}
+            <div 
+                className="Schedule-cell" 
+                key={props.class_number + props.day.wday} 
+                date={props.study_mode === 'distance' ? props.day.date : ''} 
+                classnumber={props.class_number} 
+                day={props.study_mode === 'fulltime' ? props.day.wday_en : ''} 
+                weekparity={props.study_mode === 'fulltime' ? props.selected_week_fulltime : ''}
                 id={
                 props.free_slots_array &&
                 (((props.free_slots_array[0].classes_count === 0 || slotInfo[0].class_in_streak) && slotInfo[0].classroom_is_free && !slotInfo[0].lesson && slotInfo[0].speaker_is_free && props.free_slots_array[0].classes_count < 4) ? "active" : "passive")
-            }>
+                }
+                onClick={
+                    props.free_slots_array && 
+                    (((props.free_slots_array[0].classes_count === 0 || slotInfo[0].class_in_streak) && slotInfo[0].classroom_is_free && !slotInfo[0].lesson && slotInfo[0].speaker_is_free && props.free_slots_array[0].classes_count < 4) ? handleClick : null)
+                }
+            >
                 {
                     lesson && 
                     <div className="Schedule-cell-content">
