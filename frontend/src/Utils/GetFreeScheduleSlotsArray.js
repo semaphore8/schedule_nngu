@@ -18,27 +18,27 @@ export default function getFreeScheduleSlotsArray(studyMode, days, lessons, sele
   			}
       );
     }
-  }
+  
 
   // handle "lesson" and "class_in_streak" properties
-  for (let day of res) {
+  
     if (studyMode === "distance") {
       for (let l of lessons) {
         for (let c in day.classes) {
           if (l.date_day === day.date && l.class_number === day.classes[c].number) 
           {
             day.classes[c].lesson = true;
-            try {day.classes[parseInt(c)+1].class_in_streak = true} catch(e) {};
-            try {day.classes[parseInt(c)-1].class_in_streak = true} catch(e) {};
-            for (let i = 1; i <=6; i++) {
-              if (day.classes[parseInt(c)+1].lesson !== true) {
-                try {day.classes[i].class_in_streak = false} catch(e) {};
-              }
-            }
           }
         }
       }
     }
+  
+
+
+
+ 
+
+  
     if (studyMode === "fulltime") {
       for (let l of lessons) {
         for (let c in day.classes) {
@@ -56,6 +56,7 @@ export default function getFreeScheduleSlotsArray(studyMode, days, lessons, sele
         }
       }
     }
+  
 
     // handle "classes_count"
 
@@ -106,5 +107,20 @@ export default function getFreeScheduleSlotsArray(studyMode, days, lessons, sele
   }
 
   }
+  console.log(res)
+
+  // handle "class_in_streak" prop
+  for (let day of res) {
+    for (let c of day.classes) {
+      if (c.lesson === true) {
+        try {if (day.classes[parseInt(c.number)].lesson !== true) day.classes[parseInt(c.number)].class_in_streak = true} catch(e) {};
+        try {if (day.classes[parseInt(c.number)-2].lesson !== true) day.classes[parseInt(c.number)-2].class_in_streak = true} catch(e) {};
+      }
+      else {
+          if (day.classes_count !== 0 && c.class_in_streak !== true && (day.classes[parseInt(c.number)] ? day.classes[parseInt(c.number)].lesson !== true : true)) {c.class_in_streak = false} 
+      } 
+    }
+  }
+
   return res
 }

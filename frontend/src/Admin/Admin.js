@@ -417,15 +417,15 @@ export default function Admin() {
                                     </Tooltip>
                     }
                     {
-                        (selectedSpeaker && selectedClassroom && selectedDay && selectedGroup.mode_of_study === 'fulltime') && 
-                                    <Tooltip title="Выбранный день" arrow>
-                                        <Chip variant="outlined" label={selectedDay} onDelete={handleDayDelete} />
-                                    </Tooltip>
-                    }
-                    {
                         (selectedSpeaker && selectedClassroom && selectedGroup.mode_of_study === 'fulltime') && 
                                     <Tooltip title="Выбранная неделя" arrow>
                                         <Chip variant="outlined" label={selectedWeekParity === 'even' ? 'Чётная' : 'Нечётная'} />
+                                    </Tooltip>
+                    }
+                    {
+                        (selectedSpeaker && selectedClassroom && selectedDay && selectedGroup.mode_of_study === 'fulltime') && 
+                                    <Tooltip title="Выбранный день" arrow>
+                                        <Chip variant="outlined" label={selectedDay} onDelete={handleDayDelete} />
                                     </Tooltip>
                     }
                     {
