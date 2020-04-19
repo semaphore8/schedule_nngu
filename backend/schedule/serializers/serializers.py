@@ -103,3 +103,10 @@ class LoadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Load
         fields = ['term', 'group', 'subject_name', 'hours_count']
+
+
+class PostLessonsDistanceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = LessonDistance
+        fields = '__all__'

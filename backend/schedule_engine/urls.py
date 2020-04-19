@@ -13,6 +13,7 @@ router.register('loads', views.LoadViewSet)
 router.register('terms', views.TermViewSet)
 router.register('speakerblockedtimefulltime', views.SpeakerBlockedTimeFulltimeViewSet)
 router.register('speakerblockedtimedistance', views.SpeakerBlockedTimeDistanceViewSet)
+router.register('post_distance_lesson', views.PostLessonsDistance)
 
 
 urlpatterns = [

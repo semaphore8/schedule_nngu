@@ -22,7 +22,7 @@ import Typography from '@material-ui/core/Typography';
 
 export default function Admin() {
     
-    // Constants
+    // Constants & vars
 
     const loadTitles = [
         'Предмет', 
@@ -31,6 +31,8 @@ export default function Admin() {
         'Часов в неделю', 
         'Пар в неделю'
     ]
+
+    // var scheduleUpdated
 
     // Components styles
 
@@ -86,6 +88,7 @@ export default function Admin() {
     const [selectedDate, setSelectedDate] = React.useState();
     const [selectedDay, setSelectedDay] = React.useState();
     const [selectedClassnumber, setSelectedClassnumber] = React.useState();
+    const [scheduleUpdated, setScheduleUpdated] = React.useState();
 
 
     
@@ -231,7 +234,7 @@ export default function Admin() {
                 fetchData();
             };
 
-    }, [selectedGroup, selectedTerm])
+    }, [selectedGroup, selectedTerm, scheduleUpdated])
 
     useEffect(() => {
         if (selectedSubject) {
@@ -312,11 +315,35 @@ export default function Admin() {
 
     useEffect(() => {
         if (selectedSpeaker) {
-            console.log(selectedClassroom, scheduleFreeSlotsArray, lessons)
             setScheduleFreeSlotsArray(addClassroomAvailabilityToScheduleFreeSlotsArray(selectedGroup.mode_of_study, selectedClassroom, scheduleFreeSlotsArray, lessons, selectedWeekParity))
         }
     }, [selectedClassroom])
     
+    // publishing classes
+
+    function publishClass() {
+
+        var data = JSON.stringify({
+            "date_day": selectedDate,
+            "class_number": parseInt(selectedClassnumber),
+            "speaker": speakerChoices.filter(s => s.name === selectedSpeaker)[0].id,
+            "subject": selectedSubject,
+            "classroom": classroomChoices.filter(c => c.name === selectedClassroom)[0].id,
+            "study_group": selectedGroup.id,
+            "term": selectedTerm.id
+        });
+
+        const request = new Request(ApiURI + '/post_distance_lesson/', {method: 'POST', body: data, headers: {'Content-Type': 'application/json'}});
+
+        fetch(request)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+        setScheduleUpdated(Math.random());
+
+    }
+
     return (
         <div className="Admin"> 
             <div className="header">
@@ -448,7 +475,7 @@ export default function Admin() {
                             ((selectedSpeaker && selectedClassroom && selectedDate && selectedClassnumber) || ( selectedSpeaker && selectedClassroom && selectedDay && selectedWeekParity && selectedClassnumber )) ?
                             <>
                                 <Tooltip title="Опубликовать занятие в расписание" arrow>
-                                    <Button variant="contained" color="primary" style={{ margin: 8 }}>Опубликовать занятие</Button>
+                                    <Button variant="contained" color="primary" style={{ margin: 8 }} onClick={publishClass}>Опубликовать занятие</Button>
                                 </Tooltip>
                                 <Tooltip title="Добавить занятие как черновик" arrow>
                                     <Button variant="contained" style={{ margin: 8 }}>Добавить черновик</Button>

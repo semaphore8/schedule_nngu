@@ -107,7 +107,6 @@ export default function getFreeScheduleSlotsArray(studyMode, days, lessons, sele
   }
 
   }
-  console.log(res)
 
   // handle "class_in_streak" prop
   for (let day of res) {
