@@ -55,7 +55,7 @@ function Login(props) {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const { setAuthTokens } = useAuth();
-    const referer = props.location.state.referer || '/';
+    const referer = props.location.state !== undefined ? props.location.state.referer : '/admin/';
     const classes = useStyles();
     const [credsEmpty, setCredsEmpty] = useState(false);
 
