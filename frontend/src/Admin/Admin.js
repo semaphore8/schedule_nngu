@@ -369,8 +369,8 @@ export default function Admin() {
     return (
         <div className="Admin"> 
             <div className="header">
-                <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
-                <Link to="./admin" onClick={handleLogOut}>Выйти <span role="img" aria-label="door">🚪</span></Link>  
+                <Link to="/">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
+                <Link to="/admin" onClick={handleLogOut}>Выйти <span role="img" aria-label="door">🚪</span></Link>  
             </div>
                 <h2>
                 Административный интерфейс
