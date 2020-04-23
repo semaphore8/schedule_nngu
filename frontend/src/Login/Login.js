@@ -38,6 +38,14 @@ const useStyles = makeStyles({
         justifyContent: 'space-around',
         marginBottom: 6,
     },
+    alert: {
+        maxWidth: 400,
+        position: 'absolute',
+        top: '90%',
+        left: '50%',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
   });
 
 function Login(props) {
@@ -90,10 +98,10 @@ function Login(props) {
         <div className="Login">
         <Link to="./">Вернуться к расписанию <span role="img" aria-label="hat">🎓</span></Link>  
         {
-            credsEmpty && <Alert severity="error">Введите учетные данные</Alert>
+            credsEmpty && <Alert className={classes.alert} severity="error">Введите учетные данные</Alert>
         }
         {
-            isError && <Alert severity="error">{error}</Alert>
+            isError && <Alert className={classes.alert} severity="error">{error}</Alert>
         }
         <Card className={classes.root} raised={true}>
             <CardHeader title="✍ Система управления расписанием" className={classes.header}/>
