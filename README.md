@@ -10,6 +10,12 @@ Then in dropdowns you can choose the study group and the week.
 
 Finally you can switch weeks by toggling arrow buttons and also jump to current date by clicking a "Today" button (the only one button in UI with some cyrillic text 🙂).
 
+## Demo
+
+### [Frontend](https://semaphore8.github.io/)
+
+### [Backend](https://schedule-nngu.herokuapp.com/)
+
 ## Run
 
 ```bash
