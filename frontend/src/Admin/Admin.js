@@ -32,6 +32,8 @@ export default function Admin() {
         'Пар в неделю'
     ]
 
+    const { authTokens } = useAuth();
+
     // Components styles
 
     const loadTableStyles = makeStyles({
@@ -340,7 +342,7 @@ export default function Admin() {
                 "study_group": selectedGroup.id,
                 "term": selectedTerm.id
             })
-            request = new Request(ApiURI + '/post_distance_lesson/', {method: 'POST', body: data, headers: {'Content-Type': 'application/json'}});
+            request = new Request(ApiURI + '/post_distance_lesson/', {method: 'POST', body: data, headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authTokens}`}});
         }
 
         if (selectedGroup.mode_of_study === 'fulltime') {
@@ -354,7 +356,7 @@ export default function Admin() {
                 "study_group": selectedGroup.id,
                 "term": selectedTerm.id
             })
-            request = new Request(ApiURI + '/post_fulltime_lesson/', {method: 'POST', body: data, headers: {'Content-Type': 'application/json'}});
+            request = new Request(ApiURI + '/post_fulltime_lesson/', {method: 'POST', body: data, headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authTokens}`}});
         }
 
         fetch(request)
