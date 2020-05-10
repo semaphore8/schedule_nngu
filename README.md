@@ -2,7 +2,7 @@
 
 Django + React university schedule single page application for students with dedicated admin interface.
 
-![frontend](./previews/frontend_preview.png)
+![frontend](./previews/schedule-demo.gif)
 
 This app is provided to manage Full-time and Distance study mode classes and groups. You can change the mode by toggling the switch in front of the page.
 
