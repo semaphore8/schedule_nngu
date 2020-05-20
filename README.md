@@ -12,7 +12,7 @@ Finally you can switch weeks by toggling arrow buttons and also jump to current 
 
 ## Demo
 
-### [Frontend](https://semaphore8.github.io/)
+### [Frontend](https://semaphore8.github.io/) **on the first visit give it some time to wake up backend servers*
 
 ### [Backend](https://schedule-nngu.herokuapp.com/)
 
