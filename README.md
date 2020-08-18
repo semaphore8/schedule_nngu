@@ -16,7 +16,7 @@ Finally you can switch weeks by toggling arrow buttons and also jump to current 
 
 ### [Backend](https://schedule-nngu.herokuapp.com/)
 
-## Run
+## Development run
 
 ```bash
 cd ./backend
