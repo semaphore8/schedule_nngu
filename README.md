@@ -1,6 +1,6 @@
 # 📅 Schedule nngu
 
-Django + React university schedule single page application for students with dedicated admin interface.
+Django + React university schedule single page application with dedicated admin interface.
 
 ![frontend](./previews/schedule-demo.gif)
 
@@ -12,11 +12,11 @@ Finally you can switch weeks by toggling arrow buttons and also jump to current 
 
 ## Demo
 
-### [Frontend](https://semaphore8.github.io/)
+### [Frontend](https://semaphore8.github.io/) * *give it some time to wake up backend servers on the first visit. frontend admin creds* **guest**:**asdf^jkl;**
 
 ### [Backend](https://schedule-nngu.herokuapp.com/)
 
-## Run
+## Development run
 
 ```bash
 cd ./backend
